@@ -90,7 +90,7 @@ Form.prototype.parse = function(req, cb) {
   });
   req.on('aborted', function() {
     self.emit('aborted');
-    error(self, new Error("Request aborted"));
+    //error(self, new Error("Request aborted"));
   });
 
   self.bytesExpected = getBytesExpected(req.headers);
