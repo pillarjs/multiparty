@@ -516,7 +516,6 @@ function handleFile(self, fileStream) {
   self.openedFiles.push(file);
   fileStream.pipe(file.ws);
   var counter = new StreamCounter();
-  var seenBytes = 0;
   fileStream.pipe(counter);
   var hashWorkaroundStream
     , hash = null;
@@ -531,9 +530,7 @@ function handleFile(self, fileStream) {
     fileStream.pipe(hashWorkaroundStream);
   }
   counter.on('progress', function() {
-    var deltaBytes = counter.bytes - seenBytes;
-    self.totalFileSize += deltaBytes;
-    if (self.totalFileSize > self.maxFilesSize) {
+    if ((self.totalFileSize + counter.bytes) > self.maxFilesSize) {
       if (hashWorkaroundStream) fileStream.unpipe(hashWorkaroundStream);
       fileStream.unpipe(counter);
       self.handleError(new Error("maxFilesSize " + self.maxFilesSize + " exceeded"));
@@ -545,6 +542,7 @@ function handleFile(self, fileStream) {
   file.ws.on('close', function() {
     if (hash) file.hash = hash.digest('hex');
     file.size = counter.bytes;
+    self.totalFileSize += file.size;
     self.emit('file', fileStream.name, file);
     endFlush(self);
   });
