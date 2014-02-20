@@ -109,8 +109,8 @@ Form.prototype.parse = function(req, cb) {
   req.pipe(self);
 
   if (cb) {
-    var fields = {};
-    var files = {};
+    var fields = req.fields = {};
+    var files = req.files = {};
     self.on('error', function(err) {
       cb(err);
     });
@@ -519,7 +519,7 @@ function handleFile(self, fileStream) {
     fieldName: fileStream.name,
     originalFilename: fileStream.filename,
     path: uploadPath(self.uploadDir, fileStream.filename),
-    headers: fileStream.headers,
+    headers: fileStream.headers
   };
   file.ws = fs.createWriteStream(file.path);
   self.openedFiles.push(file);
