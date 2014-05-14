@@ -55,6 +55,7 @@ function Form(options) {
   self.uploadDir = options.uploadDir || os.tmpDir();
   self.encoding = options.encoding || 'utf8';
   self.hash = options.hash || false;
+  self.prefix = options.prefix || '';
 
   self.bytesReceived = 0;
   self.bytesExpected = null;
@@ -640,7 +641,7 @@ function setUpParser(self, boundary) {
 
 function uploadPath(baseDir, filename) {
   var ext = path.extname(filename).replace(FILE_EXT_RE, '$1');
-  var name = process.pid + '-' +
+  var name = prefix + process.pid + '-' +
     (Math.random() * 0x100000000 + 1).toString(36) + ext;
   return path.join(baseDir, name);
 }
