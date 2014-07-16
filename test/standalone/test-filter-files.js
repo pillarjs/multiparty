@@ -1,5 +1,4 @@
 var assert = require('assert');
-var findit = require('findit');
 var http = require('http');
 var net = require('net');
 var fs = require('fs');
@@ -16,15 +15,14 @@ var server = http.createServer(function (req, res) {
     }
   });
   form.parse(req, function (err, fields, files) {
+    files.file.forEach(function (file) {
+      fs.unlinkSync(file.path);
+    });
+
     assert(files.hasOwnProperty('file'));
     assert(files.file.length === 1);
     assert(files.file[0].originalFilename = 'plain2.txt');
     
-    var tmpWalker = findit(TMP_PATH);
-    tmpWalker.on('file', function(file) {
-      fs.unlinkSync(file);
-    });
-
     res.end('200');
   });
 }).listen(function() {
