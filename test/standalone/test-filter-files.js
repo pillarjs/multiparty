@@ -10,7 +10,7 @@ var TMP_PATH = process.env.TMPDIR;
 var server = http.createServer(function (req, res) {
   var form = new multiparty.Form({
     uploadDir: TMP_PATH,
-    filter: function (file) {
+    fileFilter: function (file) {
       if (file.originalFilename !== 'plain2.txt') { return false; }
       else { return true; }
     }
