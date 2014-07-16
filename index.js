@@ -48,6 +48,7 @@ function Form(options) {
 
   self.autoFields = !!options.autoFields;
   self.autoFiles = !!options.autoFiles;
+  self.filter = options.filter || null;
 
   self.maxFields = options.maxFields || 1000;
   self.maxFieldsSize = options.maxFieldsSize || 2 * 1024 * 1024;
@@ -570,6 +571,10 @@ function handleFile(self, fileStream) {
     path: uploadPath(self.uploadDir, fileStream.filename),
     headers: fileStream.headers,
   };
+  if (self.filter && !self.filter(file)) {
+    fileStream.resume();
+    return;
+  }
   beginFlush(self); // flush to write stream
   file.ws = fs.createWriteStream(file.path);
   self.openedFiles.push(file);
