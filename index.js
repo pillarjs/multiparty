@@ -613,6 +613,7 @@ function handleFile(self, fileStream) {
   file.ws.on('close', function() {
     if (hash) file.hash = hash.digest('hex');
     file.size = counter.bytes;
+    delete file.ws; // stream is no more of any use in emitted file
     self.emit('file', fileStream.name, file);
     endFlush(self);
   });
