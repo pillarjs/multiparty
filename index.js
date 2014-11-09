@@ -5,6 +5,7 @@ var crypto = require('crypto');
 var path = require('path');
 var os = require('os');
 var StringDecoder = require('string_decoder').StringDecoder;
+var EventEmitter = require('events').EventEmitter;
 var FdSlicer = require('fd-slicer');
 
 var START = 0;
@@ -193,7 +194,7 @@ Form.prototype.parse = function(req, cb) {
       self.error = err;
       req.removeListener('aborted', onReqAborted);
       req.removeListener('end', onReqEnd);
-      if (self.destStream) {
+      if (self.destStream && EventEmitter.listenerCount(self.destStream, 'error') > 0) {
         self.destStream.emit('error', err);
       }
     }
