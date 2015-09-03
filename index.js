@@ -446,7 +446,7 @@ Form.prototype.onParseHeaderEnd = function() {
 
   var m;
   if (this.headerField === 'content-disposition') {
-    if (m = this.headerValue.match(/\bname="([^"]+)"/i)) {
+    if (m = this.headerValue.match(/\bname="?([^"]+)("|; )/i)) {
       this.partName = m[1];
     }
     this.partFilename = parseFilename(this.headerValue);
@@ -780,12 +780,15 @@ function rando(size) {
 function parseFilename(headerValue) {
   var m = headerValue.match(/\bfilename="(.*?)"($|; )/i);
   if (!m) {
-    m = headerValue.match(/\bfilename\*=utf-8\'\'(.*?)($|; )/i);
-    if (m) {
-      m[1] = decodeURI(m[1]);
-    }
-    else {
-      return;
+    m = headerValue.match(/\bfilename=(.*?)($|; )/i);
+    if (!m) {
+      m = headerValue.match(/\bfilename\*=utf-8\'\'(.*?)($|; )/i);
+      if (m) {
+        m[1] = decodeURI(m[1]);
+      }
+      else {
+        return;
+      }
     }
   }
 
