@@ -56,7 +56,8 @@ function Form(options) {
   self.maxFilesSize = options.maxFilesSize || Infinity;
   self.uploadDir = options.uploadDir || os.tmpDir();
   self.encoding = options.encoding || 'utf8';
-
+  self.useOriginalFielName = options.useOriginalFielName || false;
+    
   self.bytesReceived = 0;
   self.bytesExpected = null;
 
@@ -641,7 +642,7 @@ function handleFile(self, fileStream) {
   var publicFile = {
     fieldName: fileStream.name,
     originalFilename: fileStream.filename,
-    path: uploadPath(self.uploadDir, fileStream.filename),
+    path: uploadPath(self.uploadDir, fileStream.filename,self.useOriginalFielName),
     headers: fileStream.headers,
     size: 0,
   };
@@ -757,9 +758,9 @@ function setUpParser(self, boundary) {
   });
 }
 
-function uploadPath(baseDir, filename) {
+function uploadPath(baseDir, filename,isToUseOriginalFileName) {
   var ext = path.extname(filename).replace(FILE_EXT_RE, '$1');
-  var name = randoString(18) + ext;
+  var name = isToUseOriginalFileName ? filename : randoString(18) + ext;
   return path.join(baseDir, name);
 }
 
