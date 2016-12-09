@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+    <form action="/upload" enctype="multipart/form-data" method="post" id="my-upload-form">
+        <input type="text" name="title"><br>
+        <input type="file" name="upload" multiple="multiple"><br>
+        <input type="button" value="Upload">
+        <p>
+            <pre></pre>
+        </p>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $form = $('#my-upload-form')
+                , $submit = $form.find('input[type=button]');
+
+            $submit.on('click', function(e){
+                e.preventDefault();
+
+                var formData = (window.FormData) ? new FormData($form[0]) : null;
+                var data = (formData !== null) ? formData : $form.serialize();
+
+                $.ajax({
+                    url     : $form.attr('action'),
+                    type    : $form.attr('method'),
+                    contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+                    processData: false, // Don't process the files
+                    cache   : false,
+                    dataType: 'json',
+                    data    : data,
+                    success: function(data, textStatus, jqXHR){
+                        if (typeof data.error === 'undefined') {
+                            // Success so call function to process the form
+                            $form.find('pre').html(JSON.stringify(data, null, 4));
+                        } else  {
+                            // Handle errors here
+                            console.log('ERRORS: ' + data.error);
+                            $form.find('pre').html(data.error)
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        // Handle errors here
+                        console.log('ERRORS: ' + textStatus);
+                        $form.find('pre').html(textStatus)
+                    }
+                })
+            })
+        })
+    </script>
+    </body>
+</html>

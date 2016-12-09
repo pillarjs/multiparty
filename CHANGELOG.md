@@ -1,3 +1,9 @@
+### 4.1.3
+
+ * Martin-Luther ETOUMAN:
+   - Add jQuery Ajax example: `ajax-upload`.   
+     `$ node ajax-upload`
+
 ### 4.1.2
 
  * Douglas Christopher Wilson:
