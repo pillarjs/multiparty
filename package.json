@@ -4,7 +4,7 @@
   "description": "multipart/form-data parser which supports streaming",
   "repository": {
     "type": "git",
-    "url": "git@github.com:andrewrk/node-multiparty.git"
+    "url": "git@github.com:pillarjs/multiparty.git"
   },
   "keywords": [
     "file",
@@ -34,7 +34,7 @@
     "fd-slicer": "~1.0.1"
   },
   "bugs": {
-    "url": "https://github.com/andrewrk/node-multiparty/issues"
+    "url": "https://github.com/pillarjs/multiparty/issues"
   },
   "main": "index.js",
   "directories": {
