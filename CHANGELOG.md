@@ -1,3 +1,17 @@
+### 4.1.3
+
+  * Douglas Christopher Wilson:
+    - Update to fd-slicer 1.0.1
+    - Add 4 to Travis CI
+    - Add 6 to Travis CI
+    - Move repository to pillarjs/multiparty
+
+  * Ivan Blazevic
+    - Fix Azure example style
+
+  * Сковорода Никита Андреевич
+    - Use `os.tmpdir()` instead of `os.tmpDir()`
+
 ### 4.1.2
 
  * Douglas Christopher Wilson:
