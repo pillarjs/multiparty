@@ -248,3 +248,7 @@ stream uploads to disk for you.
 
  * `name` - field name
  * `value` - string field value
+
+## License
+
+[MIT](LICENSE)
