@@ -1,4 +1,7 @@
-# multiparty [![Build Status](https://travis-ci.org/pillarjs/multiparty.svg?branch=master)](https://travis-ci.org/pillarjs/multiparty) [![Coverage Status](https://img.shields.io/coveralls/pillarjs/multiparty.svg)](https://coveralls.io/r/pillarjs/multiparty)
+# multiparty
+
+[![Build Status](https://travis-ci.org/pillarjs/multiparty.svg?branch=master)](https://travis-ci.org/pillarjs/multiparty)
+[![Coverage Status](https://img.shields.io/coveralls/pillarjs/multiparty.svg)](https://coveralls.io/r/pillarjs/multiparty)
 
 Parse http requests with content-type `multipart/form-data`, also known as file uploads.
 
