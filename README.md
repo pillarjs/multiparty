@@ -6,18 +6,6 @@ See also [busboy](https://github.com/mscdex/busboy) - a
 [faster](https://github.com/mscdex/dicer/wiki/Benchmarks) alternative
 which may be worth looking into.
 
-### Why the fork?
-
- * This module uses the Node.js v0.10 streams properly
- * It will not create a temp file for you unless you want it to.
- * Counts bytes and does math to help you figure out the `Content-Length` of
-   the final part.
- * You can stream uploads to s3 with
-   [aws-sdk](https://github.com/aws/aws-sdk-js), for [example](examples/s3.js).
- * Less bugs. This code is simpler, has all deprecated functionality removed,
-   has cleaner tests, and does not try to do anything beyond multipart stream
-   parsing.
-
 ## Installation
 
 ```
