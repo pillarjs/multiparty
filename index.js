@@ -1,3 +1,11 @@
+/*!
+ * multiparty
+ * Copyright(c) 2013 Felix Geisendörfer
+ * Copyright(c) 2014 Andrew Kelley
+ * Copyright(c) 2014 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
 var stream = require('stream');
 var util = require('util');
 var fs = require('fs');
