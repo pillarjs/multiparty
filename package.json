@@ -2,10 +2,7 @@
   "name": "multiparty",
   "version": "4.1.3",
   "description": "multipart/form-data parser which supports streaming",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:pillarjs/multiparty.git"
-  },
+  "repository": "pillarjs/multiparty",
   "keywords": [
     "file",
     "upload",
@@ -32,9 +29,6 @@
   "license": "MIT",
   "dependencies": {
     "fd-slicer": "~1.0.1"
-  },
-  "bugs": {
-    "url": "https://github.com/pillarjs/multiparty/issues"
   },
   "main": "index.js",
   "directories": {
