@@ -30,7 +30,6 @@
   "dependencies": {
     "fd-slicer": "~1.0.1"
   },
-  "main": "index.js",
   "directories": {
     "example": "examples",
     "test": "test"
