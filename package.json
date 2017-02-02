@@ -3,6 +3,10 @@
   "description": "multipart/form-data parser which supports streaming",
   "version": "4.1.3",
   "author": "Andrew Kelley <superjoe30@gmail.com>",
+  "contributors": [
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Felix Geisendörfer <felix@debuggable.com>"
+  ],
   "license": "MIT",
   "keywords": [
     "file",
