@@ -30,9 +30,5 @@
   "dependencies": {
     "fd-slicer": "~1.0.1"
   },
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
   "author": "Andrew Kelley <superjoe30@gmail.com>"
 }
