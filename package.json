@@ -27,6 +27,12 @@
     "rimraf": "~2.5.2",
     "superagent": "~0.21.0"
   },
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
   "engines": {
     "node": ">= 0.10"
   },
