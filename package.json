@@ -20,12 +20,12 @@
     "fd-slicer": "~1.0.1"
   },
   "devDependencies": {
-    "findit2": "~2.2.3",
-    "istanbul": "~0.4.3",
-    "mkdirp": "~0.5.1",
-    "pend": "~1.2.0",
-    "rimraf": "~2.5.2",
-    "superagent": "~0.21.0"
+    "findit2": "2.2.3",
+    "istanbul": "0.4.3",
+    "mkdirp": "0.5.1",
+    "pend": "1.2.0",
+    "rimraf": "2.5.2",
+    "superagent": "0.21.0"
   },
   "files": [
     "CHANGELOG.md",
