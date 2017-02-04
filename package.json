@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "findit2": "2.2.3",
-    "istanbul": "0.4.3",
+    "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
     "pend": "1.2.0",
     "rimraf": "2.5.2",
