@@ -386,6 +386,7 @@ var standaloneTests = [
         req.write('some more text stuff')
         req.write('\r\n--foo--')
         req.end(function(err, resp) {
+          resp.resume()
           server.close(cb);
         });
       });
@@ -433,9 +434,8 @@ var standaloneTests = [
 
         req.end(function(err, resp) {
           assert.ifError(err);
-          resp.on('end', function() {
-            server.close(cb);
-          });
+          resp.resume()
+          server.close(cb)
         });
 
         // No space.
@@ -757,9 +757,8 @@ var standaloneTests = [
         req.attach('files[]', fixture('binaryfile.tar.gz'), 'BenF364_LIB353.zip');
         req.end(function(err, resp) {
           assert.ifError(err);
-          resp.on('end', function() {
-            server.close(cb);
-          });
+          resp.resume()
+          server.close(cb)
         });
       });
       function fixture(name) {
@@ -1051,7 +1050,7 @@ var standaloneTests = [
           assert.ifError(err);
         });
         req.end();
-        req.set('Content-Type', 'multipart/form-data');
+        req.req.setHeader('Content-Type', 'multipart/form-data')
         req.on('response', function(res) {
           assert.equal(res.statusCode, 400);
           server.close(cb);
