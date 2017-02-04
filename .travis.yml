@@ -5,6 +5,13 @@ node_js:
   - "4"
   - "6"
 sudo: false
+cache:
+  directories:
+    - node_modules
+before_install:
+  # Update Node.js modules
+  - "test ! -d node_modules || npm prune"
+  - "test ! -d node_modules || npm rebuild"
 script:
   - "npm run test-travis"
 after_script:
