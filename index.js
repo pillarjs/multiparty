@@ -58,6 +58,7 @@ function Form(options) {
 
   self.autoFields = !!options.autoFields;
   self.autoFiles = !!options.autoFiles;
+  self.fileFilter = options.fileFilter || null;
 
   self.maxFields = options.maxFields || 1000;
   self.maxFieldsSize = options.maxFieldsSize || 2 * 1024 * 1024;
@@ -657,6 +658,10 @@ function handleFile(self, fileStream) {
     publicFile: publicFile,
     ws: null,
   };
+  if (self.fileFilter && !self.fileFilter(file)) {
+    fileStream.resume();
+    return;
+  }
   beginFlush(self); // flush to write stream
   var emitAndReleaseHold = holdEmitQueue(self, fileStream);
   fileStream.on('error', function(err) {
