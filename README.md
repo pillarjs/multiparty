@@ -118,7 +118,7 @@ form.on('part', function(part) {
   if (part.filename) {
     // filename is defined when this is a file
     count++;
-    console.log('got file named ' + part.name);
+    console.log('got file named ' + part.filename);
     // ignore file's content here
     part.resume();
   }
