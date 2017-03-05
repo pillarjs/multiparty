@@ -39,7 +39,7 @@ var Z = 122;
 
 var CONTENT_TYPE_RE = /^multipart\/(?:form-data|related)(?:;|$)/i;
 var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;
-var FILE_EXT_RE = /(\.[_\-a-zA-Z0-9]{0,16}).*/;
+var FILE_EXT_RE = /\.([_\-a-zA-Z0-9]{0,16}).*/;
 var LAST_BOUNDARY_SUFFIX_LEN = 4; // --\r\n
 
 // replace base64 characters with safe-for-filename characters
@@ -64,6 +64,8 @@ function Form(options) {
   self.maxFilesSize = options.maxFilesSize || Infinity;
   self.uploadDir = options.uploadDir || os.tmpdir();
   self.encoding = options.encoding || 'utf8';
+  self.ext = options.ext;
+  self.renameTo = options.renameTo;
 
   self.bytesReceived = 0;
   self.bytesExpected = null;
@@ -649,9 +651,9 @@ function handleFile(self, fileStream) {
   var publicFile = {
     fieldName: fileStream.name,
     originalFilename: fileStream.filename,
-    path: uploadPath(self.uploadDir, fileStream.filename),
+    path: uploadPath(self.uploadDir, fileStream.filename, self.renameTo, self.ext),
     headers: fileStream.headers,
-    size: 0,
+    size: 0
   };
   var internalFile = {
     publicFile: publicFile,
@@ -765,9 +767,9 @@ function setUpParser(self, boundary) {
   });
 }
 
-function uploadPath(baseDir, filename) {
-  var ext = path.extname(filename).replace(FILE_EXT_RE, '$1');
-  var name = randoString(18) + ext;
+function uploadPath(baseDir, filename, renameTo, ext) {
+  var ext = ext || path.extname(filename).replace(FILE_EXT_RE, '$1');
+  var name = [(renameTo || randoString(18)), ext].join('.');
   return path.join(baseDir, name);
 }
 

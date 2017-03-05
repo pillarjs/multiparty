@@ -83,6 +83,10 @@ Creates a new form. Options:
    This is automatically set to `true` if you add a `field` listener.
  * `autoFiles` - Enables `file` events and disables `part` events for files.
    This is automatically set to `true` if you add a `file` listener.
+ * `renameTo` - `File` name which it will be saved.
+   Defaults will be randomly generated.
+ * `ext` - `File` ext which it will be saved.
+   Defaults ext name of filename.
  * `uploadDir` - Only relevant when `autoFiles` is `true`. The directory for
    placing file uploads in. You can move them later using `fs.rename()`.
    Defaults to `os.tmpdir()`.
