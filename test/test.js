@@ -574,8 +574,7 @@ var standaloneTests = [
             nameCount += 1;
 
             var values = fields[name];
-            assert.strictEqual(values.length, 1);
-            assert.strictEqual(values[0], "foofoo");
+            assert.strictEqual(values, "foofoo");
           }
           assert.strictEqual(nameCount, 1);
 
