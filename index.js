@@ -134,14 +134,11 @@ Form.prototype.parse = function (req, cb) {
         });
         self.on('close', function () {
             end(function () {
-                var normalized_fields = {};
                 Object.keys(fields).map(function (key, index) {
                     if (fields[key].length === 1)
-                        normalized_fields[key] = fields[key][0];
-                    else
-                        normalized_fields[key] = fields[key];
+                        fields[key] = fields[key][0];
                 });
-                cb(null, normalized_fields, files);
+                cb(null, fields, files);
             });
         });
     }
