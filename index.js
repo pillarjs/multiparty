@@ -493,12 +493,12 @@ Form.prototype.onParseHeadersEnd = function(offset) {
     case 'binary':
     case '7bit':
     case '8bit':
-    self.partTransferEncoding = 'binary';
-    break;
+      self.partTransferEncoding = 'binary';
+      break;
 
     case 'base64': break;
     default:
-    return createError(400, 'unknown transfer-encoding: ' + self.partTransferEncoding);
+      return createError(400, 'unknown transfer-encoding: ' + self.partTransferEncoding);
   }
 
   self.totalFieldCount += 1;

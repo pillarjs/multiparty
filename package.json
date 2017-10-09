@@ -20,6 +20,7 @@
     "fd-slicer": "~1.0.1"
   },
   "devDependencies": {
+    "eslint": "2.13.1",
     "findit2": "2.2.3",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
@@ -37,6 +38,7 @@
     "node": ">= 0.10"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "node test/test.js",
     "test-cov": "istanbul cover test/test.js",
     "test-travis": "istanbul cover test/test.js --report lcovonly"

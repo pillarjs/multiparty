@@ -26,7 +26,7 @@ var server = http.createServer(function(req, res) {
       var name = part.filename;
       var container = 'blobContainerName';
 
-       blobService.createBlockBlobFromStream(container, name, part, size, function(error) {
+      blobService.createBlockBlobFromStream(container, name, part, size, function(error) {
         if (error) {
           // error handling
         }

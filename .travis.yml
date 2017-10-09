@@ -14,5 +14,6 @@ before_install:
   - "test ! -d node_modules || npm rebuild"
 script:
   - "npm run test-travis"
+  - "npm run lint"
 after_script:
   - "npm install coveralls@2 && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"

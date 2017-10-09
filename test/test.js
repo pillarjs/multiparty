@@ -588,7 +588,7 @@ var standaloneTests = [
             assert.strictEqual(filesList.length, 4);
             filesList.forEach(assertAndUnlink);
           }
-          
+
           assert.strictEqual(nameCount, 1);
 
           res.end();

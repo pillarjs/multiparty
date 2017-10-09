@@ -12,12 +12,15 @@ exports['rfc1867'] =
       '... contents of file1.txt ...\r\r\n'+
       '--AaB03x--\r\n',
     parts:
-    [ { headers: {
+    [
+      {
+        headers: {
           'content-disposition': 'form-data; name="field1"',
         },
         data: 'Joe Blow\r\nalmost tricked you!',
       },
-      { headers: {
+      {
+        headers: {
           'content-disposition': 'form-data; name="pics"; filename="file1.txt"',
           'Content-Type': 'text/plain',
         },
@@ -40,12 +43,15 @@ exports['noTrailing\r\n'] =
       '... contents of file1.txt ...\r\r\n'+
       '--AaB03x--',
     parts:
-    [ { headers: {
+    [
+      {
+        headers: {
           'content-disposition': 'form-data; name="field1"',
         },
         data: 'Joe Blow\r\nalmost tricked you!',
       },
-      { headers: {
+      {
+        headers: {
           'content-disposition': 'form-data; name="pics"; filename="file1.txt"',
           'Content-Type': 'text/plain',
         },

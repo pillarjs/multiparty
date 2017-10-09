@@ -51,7 +51,7 @@ var server = http.createServer(function(req, res) {
       });
     });
     form.parse(req);
-    
+
   } else {
     res.writeHead(404, {'content-type': 'text/plain'});
     res.end('404');
