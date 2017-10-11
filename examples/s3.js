@@ -6,7 +6,6 @@ if (!process.env.S3_BUCKET || !process.env.S3_KEY || !process.env.S3_SECRET) {
 }
 
 var http = require('http');
-var util = require('util');
 var multiparty = require('../');
 var AWS = require('aws-sdk');
 var PORT = process.env.PORT || 27372;

@@ -1,5 +1,4 @@
 var http = require('http')
-  , util = require('util')
   , multiparty = require('../')
   , azure = require('azure')
   , PORT = process.env.PORT || 27372;

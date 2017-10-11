@@ -25,9 +25,8 @@ var HEADER_VALUE_ALMOST_DONE = 6;
 var HEADERS_ALMOST_DONE = 7;
 var PART_DATA_START = 8;
 var PART_DATA = 9;
-var PART_END = 10;
-var CLOSE_BOUNDARY = 11;
-var END = 12;
+var CLOSE_BOUNDARY = 10;
+var END = 11;
 
 var LF = 10;
 var CR = 13;

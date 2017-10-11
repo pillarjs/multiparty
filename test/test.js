@@ -11,7 +11,6 @@ var assert = require('assert');
 var multiparty = require('../');
 var mkdirp = require('mkdirp');
 var superagent = require('superagent');
-var STANDALONE_PATH = path.join(__dirname, 'standalone');
 var server = http.createServer();
 var PORT = 13532;
 var FIXTURE_PATH = path.join(__dirname, 'fixture');
@@ -415,10 +414,7 @@ var standaloneTests = [
         });
 
         form.parse(req, function(err, fields, files) {
-          var objFileCount = 0;
-          for (var file in files) {
-            objFileCount += 1;
-          }
+          var objFileCount = Object.keys(files).length;
           // multiparty does NOT try to do intelligent things based on
           // the part name.
           assert.strictEqual(fileCount, 2);
@@ -682,7 +678,6 @@ var standaloneTests = [
   {
     name: "issue 36",
     fn: function(cb) {
-      var client;
       var server = http.createServer(function(req, res) {
         var form = new multiparty.Form();
         var endCalled = false;
@@ -739,10 +734,7 @@ var standaloneTests = [
         });
 
         form.parse(req, function(err, fields, files) {
-          var objFileCount = 0;
-          for (var file in files) {
-            objFileCount += 1;
-          }
+          var objFileCount = Object.keys(files).length;
           // multiparty does NOT try to do intelligent things based on
           // the part name.
           assert.strictEqual(fileCount, 2);
@@ -811,10 +803,6 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-
-      function fixture(name) {
-        return path.join(FIXTURE_PATH, 'file', name)
-      }
     },
   },
   {
@@ -982,10 +970,6 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-
-      function fixture(name) {
-        return path.join(FIXTURE_PATH, 'file', name)
-      }
     },
   },
   {
@@ -1019,10 +1003,6 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-
-      function fixture(name) {
-        return path.join(FIXTURE_PATH, 'file', name)
-      }
     },
   },
   {
