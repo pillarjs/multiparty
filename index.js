@@ -12,6 +12,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var path = require('path');
 var os = require('os');
+var Buffer = require('safe-buffer').Buffer
 var StringDecoder = require('string_decoder').StringDecoder;
 var fdSlicer = require('fd-slicer');
 
@@ -742,10 +743,10 @@ function clearPartVars(self) {
 }
 
 function setUpParser(self, boundary) {
-  self.boundary = new Buffer(boundary.length + 4);
+  self.boundary = Buffer.alloc(boundary.length + 4)
   self.boundary.write('\r\n--', 0, boundary.length + 4, 'ascii');
   self.boundary.write(boundary, 4, boundary.length, 'ascii');
-  self.lookbehind = new Buffer(self.boundary.length + 8);
+  self.lookbehind = Buffer.alloc(self.boundary.length + 8)
   self.state = START;
   self.boundaryChars = {};
   for (var i = 0; i < self.boundary.length; i++) {
