@@ -6,6 +6,8 @@
  * MIT Licensed
  */
 
+'use strict'
+
 var stream = require('stream');
 var util = require('util');
 var fs = require('fs');
