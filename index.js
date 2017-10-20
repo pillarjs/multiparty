@@ -76,6 +76,10 @@ function Form(options) {
   self.totalFileSize = 0;
   self.flushing = 0;
 
+  self.headerFieldMark = null;
+  self.headerValueMark = null;
+  self.partDataMark = null;
+
   self.backpressure = false;
   self.writeCbs = [];
 
