@@ -15,3 +15,8 @@ module.exports['quotes.http'] = [
   {type: 'file', name: 'upload', filename: 'foo "bar"', fixture: 'plain.txt',
   sha1: 'b31d07bac24ac32734de88b3687dddb10e976872'},
 ];
+
+module.exports['no-quotes.http'] = [
+  {type: 'file', name: 'upload', filename: 'foobar', fixture: 'plain.txt',
+  sha1: 'b31d07bac24ac32734de88b3687dddb10e976872'},
+];
