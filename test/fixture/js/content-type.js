@@ -42,3 +42,14 @@ module.exports['custom-equal-sign.http'] = [
     size: 24,
   }
 ];
+
+module.exports['multipart-mixed.http'] = [
+  {
+    type: 'file',
+    name: 'file',
+    filename: 'plain.txt',
+    fixture: 'plain.txt',
+    sha1: 'b31d07bac24ac32734de88b3687dddb10e976872',
+    size: 23,
+  }
+];
