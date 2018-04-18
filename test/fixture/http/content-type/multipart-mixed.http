@@ -1,6 +1,6 @@
 POST /upload HTTP/1.1
 Host: localhost:8080
-Content-Type: multipart/mixed; boundary=----TLV0SrKD4z1TRxRhAPUvZ
+Content-Type: multipart/form-data; custom=stuff; boundary=----TLV0SrKD4z1TRxRhAPUvZ
 Content-Length: 213
 
 ------TLV0SrKD4z1TRxRhAPUvZ
