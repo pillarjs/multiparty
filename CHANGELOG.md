@@ -63,7 +63,7 @@
 ### 3.3.2
 
  * Douglas Christopher Wilson:
-   - Do not invoke callback after close 
+   - Do not invoke callback after close
    - Share callback ending logic between error and close
 
 ### 3.3.1
