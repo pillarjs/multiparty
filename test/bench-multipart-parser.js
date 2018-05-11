@@ -1,4 +1,5 @@
 var assert = require('assert')
+var Buffer = require('safe-buffer').Buffer
   , Form = require('../').Form
   , boundary = '-----------------------------168072824752491622650073'
   , mb = 100
@@ -54,12 +55,12 @@ process.on('exit', function() {
 });
 
 function createMultipartBuffer(boundary, size) {
+  var buffer = Buffer.alloc(size)
   var head =
         '--'+boundary+'\r\n' +
         'content-disposition: form-data; name="field1"\r\n' +
         '\r\n'
     , tail = '\r\n--'+boundary+'--\r\n'
-    , buffer = new Buffer(size);
 
   buffer.write(head, 'ascii', 0);
   buffer.write(tail, 'ascii', buffer.length - tail.length);

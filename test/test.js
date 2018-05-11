@@ -1,3 +1,4 @@
+var Buffer = require('safe-buffer').Buffer;
 var crypto = require('crypto');
 var findit = require('findit2');
 var path = require('path');
@@ -301,7 +302,7 @@ var standaloneTests = [
 
       req.headers = {};
       req._read = function(){
-        this.push(new Buffer('--foo!'));
+        this.push(Buffer.from('--foo!'));
       };
 
       form.parse(req);
@@ -326,7 +327,7 @@ var standaloneTests = [
         'content-type': 'multipart/form-data; boundary=foo'
       };
       req._read = function(){
-        this.push(new Buffer('--foo!'));
+        this.push(Buffer.from('--foo!'));
       };
 
       pend.go(function(cb){
@@ -793,7 +794,7 @@ var standaloneTests = [
       server.listen(function() {
         var url = 'http://localhost:' + server.address().port + '/upload';
         var req = superagent.post(url);
-        var val = new Buffer(10 * 1024);
+        var val = Buffer.alloc(10 * 1024);
         req.field('a', val);
         req.field('b', val);
         req.field('c', val);
