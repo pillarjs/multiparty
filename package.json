@@ -18,7 +18,7 @@
   "repository": "pillarjs/multiparty",
   "dependencies": {
     "fd-slicer": "~1.0.1",
-    "safe-buffer": "5.1.1"
+    "safe-buffer": "5.1.2"
   },
   "devDependencies": {
     "eslint": "2.13.1",
