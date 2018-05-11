@@ -1,3 +1,14 @@
+### 4.1.4
+
+  * Douglas Christopher Wilson:
+    - Add 8 to Travis CI
+    - Add 10 to Travis CI
+    - Enable strict mode
+    - Use safe-buffer for improved API safety
+
+  * Mike Samuel
+    - Fix file extension filtering stopping on certain whitespace characters
+
 ### 4.1.3
 
   * Douglas Christopher Wilson:
