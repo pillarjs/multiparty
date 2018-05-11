@@ -1222,6 +1222,44 @@ var standaloneTests = [
       });
     },
   },
+  {
+    name: "issue 198",
+    fn: function(cb) {
+      var client;
+      var server = http.createServer(function(req, res) {
+        var form = new multiparty.Form();
+
+        form.parse(req, function(err, fields, files) {
+          if (err) {
+            console.error(err.stack);
+            return;
+          }
+          assert.strictEqual(path.extname(files.image[0].path), ".y");
+          assert.strictEqual(files.image[0].originalFilename, "x.y\u2028%24(echo subshell)");
+          fs.unlinkSync(files.image[0].path);
+          res.end();
+          client.end();
+          server.close(cb);
+        });
+      });
+      server.listen(function() {
+        client = net.connect(server.address().port);
+
+        client.write(
+          "POST /upload HTTP/1.1\r\n" +
+          "Accept: */*\r\n" +
+          "Content-Type: multipart/form-data; boundary=\"893e5556-f402-4fec-8180-c59333354c6f\"\r\n" +
+          "Content-Length: 217\r\n" +
+          "\r\n" +
+          "--893e5556-f402-4fec-8180-c59333354c6f\r\n" +
+          "Content-Disposition: form-data; name=\"image\"; filename*=utf-8''%78%2E%79%E2%80%A8%24%28%65%63%68%6F%20%73%75%62%73%68%65%6C%6C%29\r\n" +
+          "\r\n" +
+          "\r\n" +
+          "--893e5556-f402-4fec-8180-c59333354c6f--\r\n"
+        );
+      });
+    },
+  },
 ];
 
 resetTempDir(startFixtureTests);
