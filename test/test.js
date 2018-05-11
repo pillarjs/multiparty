@@ -53,6 +53,7 @@ var standaloneTests = [
           socket.write('9\r\n');
           socket.write('--foo--\r\n\r\n');
           socket.write('0\r\n\r\n');
+          socket.resume();
           socket.on('close', function () {
             server.close(cb);
           });
@@ -97,6 +98,7 @@ var standaloneTests = [
           socket.write('2\r\n');
           socket.write('\r\n\r\n');
           socket.write('0\r\n\r\n');
+          socket.resume();
           socket.on('close', function () {
             server.close(cb);
           });
@@ -283,6 +285,7 @@ var standaloneTests = [
           socket.write('2\r\n');
           socket.write('\r\n\r\n');
           socket.write('0\r\n\r\n');
+          socket.resume();
           socket.on('close', function () {
             server.close(cb);
           });
