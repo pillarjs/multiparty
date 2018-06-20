@@ -28,13 +28,14 @@ var server = http.createServer(function(req, res) {
       blobService.createBlockBlobFromStream(container, name, part, size, function(error) {
         if (error) {
           // error handling
+          res.status(500).send('Error uploading file');
         }
+        res.send('File uploaded successfully');
       });
     });
 
     form.parse(req);
 
-    res.send('File uploaded successfully');
   }
 });
 
