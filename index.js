@@ -8,10 +8,10 @@
 
 'use strict'
 
+var randomBytes = require('random-bytes')
 var stream = require('stream');
 var util = require('util');
 var fs = require('fs');
-var crypto = require('crypto');
 var path = require('path');
 var os = require('os');
 var Buffer = require('safe-buffer').Buffer
@@ -774,17 +774,9 @@ function uploadPath(baseDir, filename) {
 }
 
 function randoString(size) {
-  return rando(size).toString('base64').replace(/[\/\+]/g, function(x) {
+  return randomBytes.sync(size).toString('base64').replace(/[\/\+]/g, function(x) {
     return b64Safe[x];
   });
-}
-
-function rando(size) {
-  try {
-    return crypto.randomBytes(size);
-  } catch (err) {
-    return crypto.pseudoRandomBytes(size);
-  }
 }
 
 function parseFilename(headerValue) {
