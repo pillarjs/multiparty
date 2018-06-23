@@ -653,11 +653,11 @@ function handleFile(self, fileStream) {
     originalFilename: fileStream.filename,
     path: uploadPath(self.uploadDir, fileStream.filename),
     headers: fileStream.headers,
-    size: 0,
+    size: 0
   };
   var internalFile = {
     publicFile: publicFile,
-    ws: null,
+    ws: null
   };
   beginFlush(self); // flush to write stream
   var emitAndReleaseHold = holdEmitQueue(self, fileStream);

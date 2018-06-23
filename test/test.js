@@ -60,7 +60,7 @@ var standaloneTests = [
           });
         });
       });
-    },
+    }
   },
   {
     name: "connection aborted closed",
@@ -105,7 +105,7 @@ var standaloneTests = [
           });
         });
       });
-    },
+    }
   },
   {
     name: "connection aborted",
@@ -135,7 +135,7 @@ var standaloneTests = [
           "Content-Type: multipart/form-data; boundary=foo\r\n\r\n");
         client.end();
       });
-    },
+    }
   },
   {
     name: "content transfer encoding",
@@ -186,7 +186,7 @@ var standaloneTests = [
         });
         req.end(body);
       });
-    },
+    }
   },
   {
     name: "emit order",
@@ -201,11 +201,11 @@ var standaloneTests = [
           'a',
           'b',
           'myimage.png',
-          'c',
+          'c'
         ];
 
         var form = new multiparty.Form({
-          autoFields: true,
+          autoFields: true
         });
 
         form.on('error', function (err) {
@@ -247,7 +247,7 @@ var standaloneTests = [
         });
         req.end();
       });
-    },
+    }
   },
   {
     name: "epilogue last chunk",
@@ -292,7 +292,7 @@ var standaloneTests = [
           });
         });
       });
-    },
+    }
   },
   {
     name: "error listen after parse",
@@ -312,7 +312,7 @@ var standaloneTests = [
         assert.ok(err);
         cb();
       });
-    },
+    }
   },
   {
     name: "error unpipe",
@@ -356,7 +356,7 @@ var standaloneTests = [
       form.parse(req)
       assert.equal(req._readableState.flowing, true, 'req flowing');
       assert.equal(req._readableState.pipesCount, 1, 'req has 1 pipe');
-    },
+    }
   },
   {
     name: "invalid",
@@ -393,7 +393,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "issue 15",
@@ -463,7 +463,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "maxFields error",
@@ -508,7 +508,7 @@ var standaloneTests = [
           "\r\n" +
           "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n");
       });
-    },
+    }
   },
   {
     name: "maxFieldsSize error",
@@ -553,7 +553,7 @@ var standaloneTests = [
           "\r\n" +
           "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n");
       });
-    },
+    }
   },
   {
     name: "issue 21",
@@ -640,7 +640,7 @@ var standaloneTests = [
           "------WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n"
         );
       });
-    },
+    }
   },
   {
     name: "issue 32",
@@ -677,7 +677,7 @@ var standaloneTests = [
           "--893e5556-f402-4fec-8180-c59333354c6f--\r\n"
         );
       });
-    },
+    }
   },
   {
     name: "issue 36",
@@ -713,7 +713,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "issue 4",
@@ -760,7 +760,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "max fields",
@@ -807,7 +807,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "max files size exact",
@@ -847,7 +847,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "max files size",
@@ -896,7 +896,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "missing boundary end",
@@ -943,7 +943,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "missing content-type error",
@@ -974,7 +974,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "unsupported content-type error",
@@ -1007,7 +1007,7 @@ var standaloneTests = [
           server.close(cb);
         });
       });
-    },
+    }
   },
   {
     name: "content-type missing boundary error",
@@ -1044,7 +1044,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "empty header field error",
@@ -1090,7 +1090,7 @@ var standaloneTests = [
           socket.end();
         });
       });
-    },
+    }
   },
   {
     name: "request encoding",
@@ -1128,7 +1128,7 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
-    },
+    }
   },
   {
     name: "stream error",
@@ -1164,7 +1164,7 @@ var standaloneTests = [
           "hi1\r\n");
         client.end();
       });
-    },
+    }
   },
   {
     name: "queued part error",
@@ -1224,7 +1224,7 @@ var standaloneTests = [
           "\r\n" +
           "bye");
       });
-    },
+    }
   },
   {
     name: "issue 198",
@@ -1262,8 +1262,8 @@ var standaloneTests = [
           "--893e5556-f402-4fec-8180-c59333354c6f--\r\n"
         );
       });
-    },
-  },
+    }
+  }
 ];
 
 resetTempDir(startFixtureTests);
@@ -1368,7 +1368,7 @@ function uploadFixture(name, cb) {
     var parts = [];
     var form = new multiparty.Form({
       autoFields: true,
-      autoFiles: true,
+      autoFiles: true
     });
     form.uploadDir = TMP_PATH;
     var pend = new Pend();

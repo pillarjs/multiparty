@@ -5,14 +5,14 @@ function expect(filename) {
     {
       type: 'field',
       name: 'title',
-      value: 'Weird filename',
+      value: 'Weird filename'
     },
     {
       type: 'file',
       name: 'upload',
       filename: filename,
-      fixture: properFilename,
-    },
+      fixture: properFilename
+    }
   ];
 }
 
@@ -26,5 +26,5 @@ module.exports = {
   'xp-chrome-12.http'    : expect(webkit),
   'xp-ie-7.http'         : expect(ffOrIe),
   'xp-ie-8.http'         : expect(ffOrIe),
-  'xp-safari-5.http'     : expect(webkit),
+  'xp-safari-5.http'     : expect(webkit)
 };

@@ -5,7 +5,7 @@ module.exports['charset.http'] = [
     filename: 'plain.txt',
     fixture: 'plain.txt',
     sha1: 'b31d07bac24ac32734de88b3687dddb10e976872',
-    size: 23,
+    size: 23
   }
 ];
 
@@ -16,7 +16,7 @@ module.exports['charset-last.http'] = [
     filename: 'plain.txt',
     fixture: 'plain.txt',
     sha1: 'b31d07bac24ac32734de88b3687dddb10e976872',
-    size: 23,
+    size: 23
   }
 ];
 
@@ -27,7 +27,7 @@ module.exports['custom.http'] = [
     filename: 'plain.txt',
     fixture: 'plain.txt',
     sha1: 'b31d07bac24ac32734de88b3687dddb10e976872',
-    size: 23,
+    size: 23
   }
 ];
 
@@ -39,6 +39,6 @@ module.exports['custom-equal-sign.http'] = [
     name: 'file',
     filename: 'plain.txt',
     fixture: 'plain.txt',
-    size: 24,
+    size: 24
   }
 ];

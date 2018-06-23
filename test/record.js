@@ -11,7 +11,7 @@ var server = http.createServer(function(req, res) {
       res.end(JSON.stringify({
         method: req.method,
         url: req.url,
-        filename: socket.filename,
+        filename: socket.filename
       }));
       return;
     }

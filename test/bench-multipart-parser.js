@@ -11,7 +11,7 @@ var callbacks = {
   headerField: -1,
   headerValue: -1,
   partData: -1,
-  end: -1,
+  end: -1
 };
 
 var form = new Form({ boundary: boundary });

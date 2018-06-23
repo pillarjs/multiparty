@@ -15,16 +15,16 @@ exports['rfc1867'] =
     [
       {
         headers: {
-          'content-disposition': 'form-data; name="field1"',
+          'content-disposition': 'form-data; name="field1"'
         },
-        data: 'Joe Blow\r\nalmost tricked you!',
+        data: 'Joe Blow\r\nalmost tricked you!'
       },
       {
         headers: {
           'content-disposition': 'form-data; name="pics"; filename="file1.txt"',
-          'Content-Type': 'text/plain',
+          'Content-Type': 'text/plain'
         },
-        data: '... contents of file1.txt ...\r',
+        data: '... contents of file1.txt ...\r'
       }
     ]
   };
@@ -46,16 +46,16 @@ exports['noTrailing\r\n'] =
     [
       {
         headers: {
-          'content-disposition': 'form-data; name="field1"',
+          'content-disposition': 'form-data; name="field1"'
         },
-        data: 'Joe Blow\r\nalmost tricked you!',
+        data: 'Joe Blow\r\nalmost tricked you!'
       },
       {
         headers: {
           'content-disposition': 'form-data; name="pics"; filename="file1.txt"',
-          'Content-Type': 'text/plain',
+          'Content-Type': 'text/plain'
         },
-        data: '... contents of file1.txt ...\r',
+        data: '... contents of file1.txt ...\r'
       }
     ]
   };
@@ -74,5 +74,5 @@ exports['emptyHeader'] =
       '\r\n'+
       '... contents of file1.txt ...\r\r\n'+
       '--AaB03x--\r\n',
-    expectError: true,
+    expectError: true
   };

@@ -13,7 +13,7 @@ var PORT = process.env.PORT || 27372;
 var bucket = process.env.S3_BUCKET;
 var s3Client = new AWS.S3({
   accessKeyId: process.env.S3_KEY,
-  secretAccessKey: process.env.S3_SECRET,
+  secretAccessKey: process.env.S3_SECRET
   // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#constructor-property
 });
 
@@ -41,7 +41,7 @@ var server = http.createServer(function(req, res) {
         Key: destPath,
         ACL: 'public-read',
         Body: part,
-        ContentLength: part.byteCount,
+        ContentLength: part.byteCount
       }, function(err, data) {
         if (err) throw err;
         console.log("done", data);

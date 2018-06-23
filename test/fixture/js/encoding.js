@@ -5,7 +5,7 @@ module.exports['menu_seperator.png.http'] = [
     filename: 'menu_separator.png',
     fixture: 'menu_separator.png',
     sha1: 'c845ca3ea794be298f2a1b79769b71939eaf4e54',
-    size: 931,
+    size: 931
   }
 ];
 
@@ -16,7 +16,7 @@ module.exports['beta-sticker-1.png.http'] = [
     filename: 'beta-sticker-1.png',
     fixture: 'beta-sticker-1.png',
     sha1: '6abbcffd12b4ada5a6a084fe9e4584f846331bc4',
-    size: 1660,
+    size: 1660
   }
 ];
 
@@ -27,7 +27,7 @@ module.exports['blank.gif.http'] = [
     filename: 'blank.gif',
     fixture: 'blank.gif',
     sha1: 'a1fdee122b95748d81cee426d717c05b5174fe96',
-    size: 49,
+    size: 49
   }
 ];
 
@@ -38,7 +38,7 @@ module.exports['binaryfile.tar.gz.http'] = [
     filename: 'binaryfile.tar.gz',
     fixture: 'binaryfile.tar.gz',
     sha1: 'cfabe13b348e5e69287d677860880c52a69d2155',
-    size: 301,
+    size: 301
   }
 ];
 
@@ -49,6 +49,6 @@ module.exports['plain.txt.http'] = [
     filename: 'plain.txt',
     fixture: 'plain.txt',
     sha1: 'b31d07bac24ac32734de88b3687dddb10e976872',
-    size: 23,
+    size: 23
   }
 ];
