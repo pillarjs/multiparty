@@ -1365,6 +1365,7 @@ function computeSha1(o) {
 
 function uploadFixture(name, cb) {
   server.once('request', function(req, res) {
+    var done = false
     var parts = [];
     var form = new multiparty.Form({
       autoFields: true,
@@ -1392,9 +1393,9 @@ function uploadFixture(name, cb) {
     form.parse(req);
 
     function callback() {
-      var realCallback = cb;
-      cb = function() {};
-      realCallback.apply(null, arguments);
+      if (done) return
+      done = true
+      cb.apply(null, arguments)
     }
   });
 

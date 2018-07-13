@@ -52,21 +52,20 @@ exports.Form = Form;
 
 util.inherits(Form, stream.Writable);
 function Form(options) {
+  var opts = options || {}
   var self = this;
   stream.Writable.call(self);
 
-  options = options || {};
-
   self.error = null;
 
-  self.autoFields = !!options.autoFields;
-  self.autoFiles = !!options.autoFiles;
+  self.autoFields = !!opts.autoFields
+  self.autoFiles = !!opts.autoFiles
 
-  self.maxFields = options.maxFields || 1000;
-  self.maxFieldsSize = options.maxFieldsSize || 2 * 1024 * 1024;
-  self.maxFilesSize = options.maxFilesSize || Infinity;
-  self.uploadDir = options.uploadDir || os.tmpdir();
-  self.encoding = options.encoding || 'utf8';
+  self.maxFields = opts.maxFields || 1000
+  self.maxFieldsSize = opts.maxFieldsSize || 2 * 1024 * 1024
+  self.maxFilesSize = opts.maxFilesSize || Infinity
+  self.uploadDir = opts.uploadDir || os.tmpdir()
+  self.encoding = opts.encoding || 'utf8'
 
   self.bytesReceived = 0;
   self.bytesExpected = null;
@@ -680,11 +679,9 @@ function handleFile(self, fileStream) {
 
     var prevByteCount = 0;
     internalFile.ws.on('error', function(err) {
-      if (err.code === 'ETOOBIG') {
-        err = createError(413, err.message);
-        err.code = 'ETOOBIG';
-      }
-      self.handleError(err);
+      self.handleError(err.code === 'ETOOBIG'
+        ? createError(413, err.message, { code: err.code })
+        : err)
     });
     internalFile.ws.on('progress', function() {
       publicFile.size = internalFile.ws.bytesWritten;
