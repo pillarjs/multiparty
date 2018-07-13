@@ -8,6 +8,7 @@
 
 'use strict'
 
+var createError = require('http-errors')
 var randomBytes = require('random-bytes')
 var stream = require('stream');
 var util = require('util');
@@ -801,12 +802,4 @@ function parseFilename(headerValue) {
 
 function lower(c) {
   return c | 0x20;
-}
-
-function createError(status, message) {
-  var error = new Error(message);
-  Error.captureStackTrace(error, createError);
-  error.status = status;
-  error.statusCode = status;
-  return error;
 }
