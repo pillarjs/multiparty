@@ -1,6 +1,9 @@
 root: true
 rules:
   comma-dangle: error
+  comma-style:
+    - error
+    - last
   eol-last: error
   indent:
     - error

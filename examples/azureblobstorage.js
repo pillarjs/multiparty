@@ -1,7 +1,8 @@
+var azure = require('azure')
 var http = require('http')
-  , multiparty = require('../')
-  , azure = require('azure')
-  , PORT = process.env.PORT || 27372;
+var multiparty = require('../')
+
+var PORT = process.env.PORT || 27372;
 
 var server = http.createServer(function(req, res) {
   if (req.url === '/') {

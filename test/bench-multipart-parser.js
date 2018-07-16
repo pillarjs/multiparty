@@ -1,9 +1,10 @@
 var assert = require('assert')
 var Buffer = require('safe-buffer').Buffer
-  , Form = require('../').Form
-  , boundary = '-----------------------------168072824752491622650073'
-  , mb = 100
-  , buffer = createMultipartBuffer(boundary, mb * 1024 * 1024)
+var Form = require('../').Form
+
+var BOUNDARY = '-----------------------------168072824752491622650073'
+var SIZE_MB = 100
+var BUFFER = createMultipartBuffer(BOUNDARY, SIZE_MB * 1024 * 1024)
 
 var callbacks = {
   partBegin: -1,
@@ -14,7 +15,7 @@ var callbacks = {
   end: -1
 };
 
-var form = new Form({ boundary: boundary });
+var form = new Form({ boundary: BOUNDARY });
 
 hijack('onParseHeaderField', function() {
   callbacks.headerField++;
@@ -41,10 +42,10 @@ form.on('finish', function() {
 });
 
 var start = new Date();
-form.write(buffer, function(err) {
+form.write(BUFFER, function(err) {
   var duration = new Date() - start;
   assert.ifError(err);
-  var mbPerSec = (mb / (duration / 1000)).toFixed(2);
+  var mbPerSec = (SIZE_MB / (duration / 1000)).toFixed(2);
   console.log(mbPerSec+' mb/sec');
 });
 
@@ -60,7 +61,7 @@ function createMultipartBuffer(boundary, size) {
         '--'+boundary+'\r\n' +
         'content-disposition: form-data; name="field1"\r\n' +
         '\r\n'
-    , tail = '\r\n--'+boundary+'--\r\n'
+  var tail = '\r\n--'+boundary+'--\r\n'
 
   buffer.write(head, 'ascii', 0);
   buffer.write(tail, 'ascii', buffer.length - tail.length);

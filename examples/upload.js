@@ -1,7 +1,8 @@
 var http = require('http')
-  , util = require('util')
-  , multiparty = require('../')
-  , PORT = process.env.PORT || 27372
+var multiparty = require('../')
+var util = require('util')
+
+var PORT = process.env.PORT || 27372
 
 var server = http.createServer(function(req, res) {
   if (req.url === '/') {
