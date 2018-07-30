@@ -1,3 +1,13 @@
+### 4.2.0
+
+  * Douglas Christopher Wilson:
+    - Use http-errors for raised errors
+    - Use random-bytes module for polyfill
+    - perf: remove parameter reassignment
+
+  * Graham Hunter
+    - examples: update placement of response in azureblobstorage
+
 ### 4.1.4
 
   * Douglas Christopher Wilson:
