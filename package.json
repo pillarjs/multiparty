@@ -19,6 +19,7 @@
   "dependencies": {
     "fd-slicer": "~1.0.1",
     "http-errors": "~1.6.3",
+    "random-bytes": "~1.0.0",
     "safe-buffer": "5.1.2"
   },
   "devDependencies": {
@@ -27,7 +28,6 @@
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
     "pend": "1.2.0",
-    "random-bytes": "1.0.0",
     "rimraf": "2.5.4",
     "superagent": "1.8.5"
   },
