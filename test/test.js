@@ -1274,6 +1274,10 @@ describe('multiparty', function () {
     })
   })
 
+  after(function (done) {
+    rimraf(TMP_PATH, done)
+  })
+
   describe('fixture tests', function () {
     var fixtureServer = http.createServer()
     var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
