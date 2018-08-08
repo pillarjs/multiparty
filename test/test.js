@@ -14,7 +14,6 @@ var assert = require('assert');
 var multiparty = require('../');
 var mkdirp = require('mkdirp');
 var superagent = require('superagent');
-var server = http.createServer();
 var FIXTURE_PATH = path.join(__dirname, 'fixture');
 var TMP_PATH = path.join(__dirname, 'tmp');
 
@@ -1276,20 +1275,22 @@ describe('multiparty', function () {
   })
 
   describe('fixture tests', function () {
+    var fixtureServer = http.createServer()
     var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
 
     before(function (done) {
-      server.listen(done)
+      fixtureServer.listen(done)
     })
 
     after(function (done) {
-      server.close(done)
+      fixtureServer.close(done)
     })
 
     Object.keys(fixtureTests).forEach(function (group) {
       describe(group, function () {
         Object.keys(fixtureTests[group]).forEach(function (name) {
-          it(path.basename(name, '.http'), createFixtureTest((group + '/' + name), fixtureTests[group][name]))
+          it(path.basename(name, '.http'),
+            createFixtureTest(fixtureServer, (group + '/' + name), fixtureTests[group][name]))
         })
       })
     })
@@ -1302,7 +1303,7 @@ describe('multiparty', function () {
   })
 })
 
-function createFixtureTest(name, fixture) {
+function createFixtureTest(server, name, fixture) {
   return function(cb) {
     uploadFixture(server, path.join(FIXTURE_PATH, 'http', name), function (err, parts) {
       if (err) return cb(err)
