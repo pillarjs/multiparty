@@ -15,7 +15,6 @@ var multiparty = require('../');
 var mkdirp = require('mkdirp');
 var superagent = require('superagent');
 var server = http.createServer();
-var PORT = 13532;
 var FIXTURE_PATH = path.join(__dirname, 'fixture');
 var TMP_PATH = path.join(__dirname, 'tmp');
 
@@ -1280,7 +1279,7 @@ describe('multiparty', function () {
     var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
 
     before(function (done) {
-      server.listen(PORT, done)
+      server.listen(done)
     })
 
     after(function (done) {
@@ -1305,7 +1304,7 @@ describe('multiparty', function () {
 
 function createFixtureTest(name, fixture) {
   return function(cb) {
-    uploadFixture(name, function(err, parts) {
+    uploadFixture(server, path.join(FIXTURE_PATH, 'http', name), function (err, parts) {
       if (err) return cb(err)
       fixture.forEach(function(expectedPart, i) {
         var parsedPart = parts[i];
@@ -1337,7 +1336,7 @@ function computeSha1(o) {
   };
 }
 
-function uploadFixture(name, cb) {
+function uploadFixture(server, path, cb) {
   server.once('request', function(req, res) {
     var done = false
     var parts = [];
@@ -1373,8 +1372,9 @@ function uploadFixture(name, cb) {
     }
   });
 
-  var socket = net.createConnection(PORT);
-  var file = fs.createReadStream(FIXTURE_PATH + '/http/' + name);
+  var port = server.address().port
+  var socket = net.createConnection(port)
+  var file = fs.createReadStream(path)
 
   file.pipe(socket, {end: false});
   socket.on('data', function () {
