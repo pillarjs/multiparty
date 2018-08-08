@@ -24,10 +24,11 @@
   },
   "devDependencies": {
     "eslint": "2.13.1",
-    "findit2": "2.2.3",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
+    "mocha": "3.5.3",
     "pend": "1.2.0",
+    "require-all": "3.0.0",
     "rimraf": "2.5.4",
     "superagent": "1.8.5"
   },
@@ -42,8 +43,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "node test/test.js",
-    "test-cov": "istanbul cover test/test.js",
-    "test-travis": "istanbul cover test/test.js --report lcovonly"
+    "test": "mocha --reporter spec --bail --check-leaks --no-exit test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks --no-exit test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks --no-exit test/"
   }
 }

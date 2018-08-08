@@ -1,6 +1,8 @@
+
+var requireAll = require('require-all')
+
 var Buffer = require('safe-buffer').Buffer;
 var crypto = require('crypto');
-var findit = require('findit2');
 var path = require('path');
 var Pend = require('pend');
 var rimraf = require('rimraf');
@@ -1266,62 +1268,45 @@ var standaloneTests = [
   }
 ];
 
-resetTempDir(startFixtureTests);
+describe('multiparty', function () {
+  before(function (done) {
+    rimraf(TMP_PATH, function (err) {
+      if (err) return done(err)
+      mkdirp(TMP_PATH, done)
+    })
+  })
 
-function startFixtureTests() {
-  console.error("Fixture tests:");
-  var walker = findit(path.join(FIXTURE_PATH, 'js'));
-  var pend = new Pend();
-  pend.max = 1;
-  pend.go(function(cb) {
-    server.listen(PORT, cb);
-  });
-  walker.on('file', function(jsPath) {
-    if (!/\.js$/.test(jsPath)) return;
-    var group = path.basename(jsPath, '.js');
-    var testInfo = require(jsPath);
-    for (var name in testInfo) {
-      var fixture = testInfo[name];
-      pend.go(createFixtureTest(group + '/' + name, fixture));
-    }
-  });
-  walker.on('end', function() {
-    pend.wait(function(err) {
-      if (err) throw err;
-      server.close(startStandaloneTests);
-    });
-  });
-}
+  describe('fixture tests', function () {
+    var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
 
-function startStandaloneTests() {
-  console.error("\nStandalone tests:");
-  var pend = new Pend();
-  pend.max = 1;
-  standaloneTests.forEach(function(test) {
-    pend.go(function(cb) {
-      process.stderr.write(test.name + "...");
-      var timeoutRef = setTimeout(timeout, 2000);
-      test.fn(function(err) {
-        clearTimeout(timeoutRef);
-        if (err) throw err;
-        process.stderr.write("OK\n");
-        cb();
-      });
-      function timeout() {
-        throw new Error("timeout");
-      }
-    });
-  });
-  pend.wait(function() {
-    console.error("\nAll tests passed.");
-  });
-}
+    before(function (done) {
+      server.listen(PORT, done)
+    })
+
+    after(function (done) {
+      server.close(done)
+    })
+
+    Object.keys(fixtureTests).forEach(function (group) {
+      describe(group, function () {
+        Object.keys(fixtureTests[group]).forEach(function (name) {
+          it(path.basename(name, '.http'), createFixtureTest((group + '/' + name), fixtureTests[group][name]))
+        })
+      })
+    })
+  })
+
+  describe('standalone tests', function () {
+    standaloneTests.forEach(function (test) {
+      it(test.name, test.fn)
+    })
+  })
+})
 
 function createFixtureTest(name, fixture) {
   return function(cb) {
-    process.stdout.write(name + "...");
     uploadFixture(name, function(err, parts) {
-      if (err) throw err;
+      if (err) return cb(err)
       fixture.forEach(function(expectedPart, i) {
         var parsedPart = parts[i];
         assert.equal(parsedPart.type, expectedPart.type);
@@ -1334,20 +1319,9 @@ function createFixtureTest(name, fixture) {
           if(expectedPart.size) assert.strictEqual(file.size, expectedPart.size);
         }
       });
-      console.log("OK");
       cb();
     });
   };
-}
-
-function resetTempDir(cb) {
-  rimraf(TMP_PATH, function(err) {
-    if (err) throw err;
-    mkdirp(TMP_PATH, function(err) {
-      if (err) throw err;
-      cb();
-    });
-  });
 }
 
 function computeSha1(o) {
