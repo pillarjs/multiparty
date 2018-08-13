@@ -1,3 +1,10 @@
+### 4.2.1
+
+  * Douglas Christopher Wilson:
+    - Use uid-safe module to for temp file names
+    - Update to fd-slicer 1.1.0
+    - Update to http-errors 1.7.0
+
 ### 4.2.0
 
   * Douglas Christopher Wilson:
