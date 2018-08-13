@@ -19,8 +19,8 @@
   "dependencies": {
     "fd-slicer": "1.1.0",
     "http-errors": "~1.7.0",
-    "random-bytes": "~1.0.0",
-    "safe-buffer": "5.1.2"
+    "safe-buffer": "5.1.2",
+    "uid-safe": "2.1.5"
   },
   "devDependencies": {
     "eslint": "2.13.1",

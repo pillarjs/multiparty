@@ -9,7 +9,7 @@
 'use strict'
 
 var createError = require('http-errors')
-var randomBytes = require('random-bytes')
+var uid = require('uid-safe')
 var stream = require('stream');
 var util = require('util');
 var fs = require('fs');
@@ -44,9 +44,6 @@ var CONTENT_TYPE_RE = /^multipart\/(?:form-data|related)(?:;|$)/i;
 var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;
 var FILE_EXT_RE = /(\.[_\-a-zA-Z0-9]{0,16})[\S\s]*/;
 var LAST_BOUNDARY_SUFFIX_LEN = 4; // --\r\n
-
-// replace base64 characters with safe-for-filename characters
-var b64Safe = {'/': '_', '+': '-'};
 
 exports.Form = Form;
 
@@ -767,14 +764,8 @@ function setUpParser(self, boundary) {
 
 function uploadPath(baseDir, filename) {
   var ext = path.extname(filename).replace(FILE_EXT_RE, '$1');
-  var name = randoString(18) + ext;
+  var name = uid.sync(18) + ext
   return path.join(baseDir, name);
-}
-
-function randoString(size) {
-  return randomBytes.sync(size).toString('base64').replace(/[\/\+]/g, function(x) {
-    return b64Safe[x];
-  });
 }
 
 function parseFilename(headerValue) {
