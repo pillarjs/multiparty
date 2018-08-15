@@ -13,11 +13,13 @@ cache:
 before_install:
   # Skip updating shrinkwrap / lock
   - "npm config set shrinkwrap false"
+  # Setup Node.js version-specific dependencies
+  - "test $(echo $TRAVIS_NODE_VERSION | cut -d. -f1) -ge 4 || npm rm --save-dev $(grep -E '\"eslint\\S*\"' package.json | cut -d'\"' -f2)"
   # Update Node.js modules
   - "test ! -d node_modules || npm prune"
   - "test ! -d node_modules || npm rebuild"
 script:
   - "npm run test-travis"
-  - "npm run lint"
+  - "test -z $(npm -ps ls eslint) || npm run-script lint"
 after_script:
   - "npm install coveralls@2 && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
