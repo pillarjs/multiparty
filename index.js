@@ -517,7 +517,7 @@ Form.prototype.onParseHeadersEnd = function(offset) {
   self.destStream.byteCount = partContentLength ? parseInt(partContentLength, 10) :
     self.bytesExpected ? (self.bytesExpected - self.destStream.byteOffset -
       self.boundary.length - LAST_BOUNDARY_SUFFIX_LEN) :
-    undefined;
+      undefined;
 
   if (self.destStream.filename == null && self.autoFields) {
     handleField(self, self.destStream);

@@ -364,9 +364,7 @@ var standaloneTests = [
       var server = http.createServer(function(req, resp) {
         var form = new multiparty.Form();
 
-        var errCount = 0;
         form.on('error', function(err) {
-          errCount += 1;
           resp.end();
         });
         form.on('file', function(name, file) {
@@ -1062,6 +1060,7 @@ var standaloneTests = [
           assert.ok(err);
           assert.equal(err.message, 'Empty header field');
           assert.equal(err.statusCode, 400);
+          assert.equal(partCount, 0);
           server.close(cb);
         });
         form.on('close', function() {
