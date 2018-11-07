@@ -897,6 +897,58 @@ var standaloneTests = [
     }
   },
   {
+    name: "max files size edge",
+    fn: function(cb) {
+      var server = http.createServer(function(req, res) {
+        assert.strictEqual(req.url, '/upload');
+        assert.strictEqual(req.method, 'POST');
+
+        var form = new multiparty.Form({
+          autoFiles: true,
+          maxFilesSize: (768323 * 2) - 1 // exact size of 2 x pf1y5.png - 1
+        });
+
+        var first = true;
+        form.on('error', function (err) {
+          assert.ok(first);
+          first = false;
+          assert.strictEqual(err.code, 'ETOOBIG');
+          assert.strictEqual(err.status, 413);
+        });
+
+        var fileCount = 0;
+        form.on('file', function(name, file) {
+          fileCount += 1;
+          fs.unlinkSync(file.path);
+        });
+
+        form.parse(req, function(err, fields, files) {
+          assert.ok(fileCount <= 2);
+          res.statusCode = 413;
+          res.end('files too large');
+        });
+      });
+      server.listen(function() {
+        var url = 'http://localhost:' + server.address().port + '/upload';
+        var req = superagent.post(url);
+        req.attach('file0', fixture('pf1y5.png'), 'SOG1.JPG');
+        req.attach('file1', fixture('pf1y5.png'), 'SOG1.JPG');
+        req.on('error', function(err) {
+          assert.ifError(err);
+        });
+        req.end();
+        req.on('response', function(res) {
+          assert.equal(res.statusCode, 413);
+          server.close(cb);
+        });
+      });
+
+      function fixture(name) {
+        return path.join(FIXTURE_PATH, 'file', name)
+      }
+    }
+  },
+  {
     name: "missing boundary end",
     fn: function(cb) {
       var server = http.createServer(function(req, resp) {
