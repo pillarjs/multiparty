@@ -1,7 +1,7 @@
 # multiparty
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
 [![Node.js Version][node-version-image]][node-version-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
@@ -256,13 +256,12 @@ stream uploads to disk for you.
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/multiparty.svg
-[npm-url]: https://npmjs.org/package/multiparty
-[node-version-image]: https://img.shields.io/node/v/multiparty.svg
-[node-version-url]: https://nodejs.org/en/download/
-[travis-image]: https://img.shields.io/travis/pillarjs/multiparty/master.svg
-[travis-url]: https://travis-ci.org/pillarjs/multiparty
-[coveralls-image]: https://img.shields.io/coveralls/pillarjs/multiparty/master.svg
+[coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/multiparty/master
 [coveralls-url]: https://coveralls.io/r/pillarjs/multiparty?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/multiparty.svg
-[downloads-url]: https://npmjs.org/package/multiparty
+[node-version-image]: https://badgen.net/npm/node/multiparty
+[node-version-url]: https://nodejs.org/en/download
+[npm-downloads-image]: https://badgen.net/npm/dm/multiparty
+[npm-url]: https://npmjs.org/package/multiparty
+[npm-version-image]: https://badgen.net/npm/v/multiparty
+[travis-image]: https://badgen.net/travis/pillarjs/multiparty/master
+[travis-url]: https://travis-ci.org/pillarjs/multiparty
