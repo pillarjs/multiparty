@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "eslint": "4.19.1",
+    "eslint-plugin-markdown": "1.0.0-beta.8",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
     "mocha": "3.5.3",
@@ -42,7 +43,7 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --plugin markdown --ext js,md .",
     "test": "mocha --reporter spec --bail --check-leaks --no-exit test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks --no-exit test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks --no-exit test/"

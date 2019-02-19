@@ -63,6 +63,8 @@ http.createServer(function(req, res) {
 
 ### multiparty.Form
 
+<!-- eslint-disable no-unused-vars -->
+
 ```js
 var form = new multiparty.Form(options)
 ```
@@ -235,7 +237,7 @@ This is typically when you would send your response.
 
 **By default multiparty will not touch your hard drive.** But if you add this
 listener, multiparty automatically sets `form.autoFiles` to `true` and will
-stream uploads to disk for you. 
+stream uploads to disk for you.
 
 **The max bytes accepted per request can be specified with `maxFilesSize`.**
 
