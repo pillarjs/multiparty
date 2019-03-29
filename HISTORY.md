@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: http-errors@~1.7.2
+    - Fix error creating objects in some environments
+    - deps: setprototypeof@1.1.1
+
 4.2.1 / 2018-08-12
 ==================
 
