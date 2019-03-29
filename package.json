@@ -23,7 +23,7 @@
     "uid-safe": "2.1.5"
   },
   "devDependencies": {
-    "eslint": "4.19.1",
+    "eslint": "5.15.3",
     "eslint-plugin-markdown": "1.0.0-beta.8",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
