@@ -34,7 +34,7 @@
     "superagent": "2.3.0"
   },
   "files": [
-    "CHANGELOG.md",
+    "HISTORY.md",
     "LICENSE",
     "README.md",
     "index.js"
