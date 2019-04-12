@@ -30,7 +30,7 @@
     "mocha": "3.5.3",
     "pend": "1.2.0",
     "require-all": "3.0.0",
-    "rimraf": "2.5.4",
+    "rimraf": "2.6.3",
     "superagent": "2.3.0"
   },
   "files": [
