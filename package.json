@@ -27,7 +27,7 @@
     "eslint-plugin-markdown": "1.0.0",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
-    "mocha": "3.5.3",
+    "mocha": "6.1.4",
     "pend": "1.2.0",
     "require-all": "3.0.0",
     "rimraf": "2.6.3",
@@ -44,8 +44,8 @@
   },
   "scripts": {
     "lint": "eslint --plugin markdown --ext js,md .",
-    "test": "mocha --reporter spec --bail --check-leaks --no-exit test/",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks --no-exit test/",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks --no-exit test/"
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
   }
 }

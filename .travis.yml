@@ -30,6 +30,14 @@ before_install:
         fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
       ' "$@"
     }
+    function npm_use_module () {
+      node -e '
+        fs = require("fs");
+        p = JSON.parse(fs.readFileSync("package.json", "utf8"));
+        p.devDependencies[process.argv[1]] = process.argv[2];
+        fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
+      ' "$@"
+    }
     function v () {
       tr '.' '\n' <<< "${1}" \
         | awk '{ printf "%03d", $0 }' \
@@ -43,6 +51,11 @@ before_install:
   - |
     # Configure eslint for linting
     if node_version_lt '6.0'; then npm_remove_module_re '^eslint(-|$)'
+    fi
+  - |
+    # Configure mocha for testing
+    if   node_version_lt '4.0'; then npm_use_module 'mocha' '3.5.3'
+    elif node_version_lt '6.0'; then npm_use_module 'mocha' '5.2.0'
     fi
   # Update Node.js modules
   - |
