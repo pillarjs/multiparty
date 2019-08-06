@@ -1,8 +1,9 @@
 unreleased
 ==========
 
-  * deps: http-errors@~1.7.2
+  * deps: http-errors@~1.7.3
     - Fix error creating objects in some environments
+    - deps: inherits@2.0.4
     - deps: setprototypeof@1.1.1
 
 4.2.1 / 2018-08-12
