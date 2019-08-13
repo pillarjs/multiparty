@@ -5,6 +5,7 @@ unreleased
     - Fix error creating objects in some environments
     - deps: inherits@2.0.4
     - deps: setprototypeof@1.1.1
+  * deps: safe-buffer@5.2.0
 
 4.2.1 / 2018-08-12
 ==================
