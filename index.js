@@ -769,10 +769,9 @@ function uploadPath(baseDir, filename) {
 }
 
 function parseFilename(headerValue) {
-  var hv = headerValue.replace(/[^\x00-\x7F]/g,'');
-  var m = hv.match(/\bfilename="(.*?)"($|; )/i);
+  var m = headerValue.match(/\bfilename="(.*?)"($|; )/isu);
   if (!m) {
-    m = hv.match(/\bfilename\*=utf-8\'\'(.*?)($|; )/i);
+    m = headerValue.match(/\bfilename\*=utf-8\'\'(.*?)($|; )/isu);
     if (m) {
       m[1] = decodeURI(m[1]);
     }
