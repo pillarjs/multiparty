@@ -27,7 +27,7 @@
     "eslint-plugin-markdown": "1.0.1",
     "istanbul": "0.4.5",
     "mkdirp": "0.5.1",
-    "mocha": "6.2.0",
+    "mocha": "6.2.2",
     "pend": "1.2.0",
     "require-all": "3.0.0",
     "rimraf": "2.6.3",
