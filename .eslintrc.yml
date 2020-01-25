@@ -16,3 +16,4 @@ rules:
     - vars: all
       args: none
       ignoreRestSiblings: true
+  no-useless-escape: error
