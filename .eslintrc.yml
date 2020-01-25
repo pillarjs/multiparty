@@ -1,5 +1,9 @@
 root: true
 rules:
+  brace-style:
+    - error
+    - 1tbs
+    - allowSingleLine: true
   comma-dangle: error
   comma-style:
     - error

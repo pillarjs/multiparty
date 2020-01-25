@@ -774,8 +774,7 @@ function parseFilename(headerValue) {
     m = headerValue.match(/\bfilename\*=utf-8''(.*?)($|; )/i)
     if (m) {
       m[1] = decodeURI(m[1]);
-    }
-    else {
+    } else {
       return;
     }
   }
