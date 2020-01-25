@@ -20,7 +20,7 @@ var server = http.createServer(function(req, res) {
     form.parse(req, function(err, fields, files) {
       if (err) {
         res.writeHead(400, {'content-type': 'text/plain'});
-        res.end("invalid request: " + err.message);
+        res.end('invalid request: ' + err.message)
         return;
       }
       res.writeHead(200, {'content-type': 'text/plain'});

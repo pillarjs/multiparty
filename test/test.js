@@ -63,7 +63,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "connection aborted closed",
+    name: 'connection aborted closed',
     fn: function(cb) {
       var socket;
       var server = http.createServer(function (req, res) {
@@ -108,7 +108,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "connection aborted",
+    name: 'connection aborted',
     fn: function(cb) {
       var server = http.createServer(function (req, res) {
         var form = new multiparty.Form();
@@ -130,15 +130,15 @@ var standaloneTests = [
       }).listen(0, 'localhost', function () {
         var client = net.connect(server.address().port);
         client.write(
-          "POST / HTTP/1.1\r\n" +
-          "Content-Length: 70\r\n" +
-          "Content-Type: multipart/form-data; boundary=foo\r\n\r\n");
+          'POST / HTTP/1.1\r\n' +
+          'Content-Length: 70\r\n' +
+          'Content-Type: multipart/form-data; boundary=foo\r\n\r\n')
         client.end();
       });
     }
   },
   {
-    name: "content transfer encoding",
+    name: 'content transfer encoding',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         var form = new multiparty.Form();
@@ -189,9 +189,9 @@ var standaloneTests = [
     }
   },
   {
-    name: "emit order",
+    name: 'emit order',
     fn: function(cb) {
-      var bigFile = path.join(FIXTURE_PATH, "file", "pf1y5.png");
+      var bigFile = path.join(FIXTURE_PATH, 'file', 'pf1y5.png')
 
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -226,7 +226,7 @@ var standaloneTests = [
 
         form.on('close', function() {
           assert.strictEqual(fieldsInOrder.length, 0);
-          res.end("OK");
+          res.end('OK')
         });
 
         form.parse(req);
@@ -250,7 +250,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "epilogue last chunk",
+    name: 'epilogue last chunk',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         var form = new multiparty.Form();
@@ -295,7 +295,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "error listen after parse",
+    name: 'error listen after parse',
     fn: function(cb) {
       var form = new multiparty.Form();
       var req = new stream.Readable();
@@ -315,7 +315,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "error unpipe",
+    name: 'error unpipe',
     fn: function(cb) {
       var err = null;
       var form = new multiparty.Form();
@@ -359,7 +359,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "invalid",
+    name: 'invalid',
     fn: function(cb) {
       var server = http.createServer(function(req, resp) {
         var form = new multiparty.Form();
@@ -394,7 +394,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "issue 15",
+    name: 'issue 15',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -464,13 +464,13 @@ var standaloneTests = [
     }
   },
   {
-    name: "maxFields error",
+    name: 'maxFields error',
     fn: function(cb) {
       var client;
       var server = http.createServer(function (req, res) {
         var form = new multiparty.Form({maxFields: 1});
         form.on('aborted', function () {
-          throw new Error("did not expect aborted");
+          throw new Error('did not expect aborted')
         });
         var first = true;
         form.on('error', function (err) {
@@ -489,33 +489,33 @@ var standaloneTests = [
       server.listen(function() {
         client = net.connect(server.address().port);
 
-        client.write("POST /upload HTTP/1.1\r\n" +
-          "Content-Length: 728\r\n" +
-          "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"title\"\r\n" +
-          "\r\n" +
-          "foofoo" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah1.txt\"\r\n" +
-          "Content-Type: text/plain\r\n" +
-          "\r\n" +
-          "hi1\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n");
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Content-Length: 728\r\n' +
+          'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="title"\r\n' +
+          '\r\n' +
+          'foofoo' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n' +
+          'Content-Type: text/plain\r\n' +
+          '\r\n' +
+          'hi1\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n')
       });
     }
   },
   {
-    name: "maxFieldsSize error",
+    name: 'maxFieldsSize error',
     fn: function(cb) {
       var client;
       var server = http.createServer(function (req, res) {
         var form = new multiparty.Form({maxFieldsSize: 8});
         form.on('aborted', function () {
-          throw new Error("did not expect aborted");
+          throw new Error('did not expect aborted')
         });
         var first = true;
         form.on('error', function (err) {
@@ -535,26 +535,26 @@ var standaloneTests = [
       server.listen(function() {
         client = net.connect(server.address().port);
 
-        client.write("POST /upload HTTP/1.1\r\n" +
-          "Content-Length: 678\r\n" +
-          "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"title\"\r\n" +
-          "\r\n" +
-          "foofoo" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"text\"\r\n" +
-          "\r\n" +
-          "hi1\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n");
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Content-Length: 678\r\n' +
+          'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="title"\r\n' +
+          '\r\n' +
+          'foofoo' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="text"\r\n' +
+          '\r\n' +
+          'hi1\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n')
       });
     }
   },
   {
-    name: "issue 21",
+    name: 'issue 21',
     fn: function(cb) {
       var client;
       var server = http.createServer(function(req, res) {
@@ -568,18 +568,18 @@ var standaloneTests = [
           var nameCount = 0;
           var name;
           for (name in fields) {
-            assert.strictEqual(name, "title");
+            assert.strictEqual(name, 'title')
             nameCount += 1;
 
             var values = fields[name];
             assert.strictEqual(values.length, 1);
-            assert.strictEqual(values[0], "foofoo");
+            assert.strictEqual(values[0], 'foofoo')
           }
           assert.strictEqual(nameCount, 1);
 
           nameCount = 0;
           for (name in files) {
-            assert.strictEqual(name, "upload");
+            assert.strictEqual(name, 'upload')
             nameCount += 1;
 
             var filesList = files[name];
@@ -594,7 +594,7 @@ var standaloneTests = [
           server.close(cb);
 
           function assertAndUnlink(file){
-            assert.strictEqual(file.fieldName, "upload");
+            assert.strictEqual(file.fieldName, 'upload')
             fs.unlinkSync(file.path);
           }
         });
@@ -602,46 +602,46 @@ var standaloneTests = [
       server.listen(function() {
         client = net.connect(server.address().port);
 
-        client.write("POST /upload HTTP/1.1\r\n" +
-          "Content-Length: 726\r\n" +
-          "Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"title\"\r\n" +
-          "\r\n" +
-          "foofoo" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah1.txt\"\r\n" +
-          "Content-Type: text/plain\r\n" +
-          "\r\n" +
-          "hi1\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah2.txt\"\r\n" +
-          "Content-Type: text/plain\r\n" +
-          "\r\n" +
-          "hi2\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah3.txt\"\r\n" +
-          "Content-Type: text/plain\r\n" +
-          "\r\n" +
-          "hi3\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah4.txt\"\r\n" +
-          "Content-Type: text/plain\r\n" +
-          "\r\n" +
-          "hi4\r\n" +
-          "\r\n" +
-          "------WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n"
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Content-Length: 726\r\n' +
+          'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="title"\r\n' +
+          '\r\n' +
+          'foofoo' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n' +
+          'Content-Type: text/plain\r\n' +
+          '\r\n' +
+          'hi1\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah2.txt"\r\n' +
+          'Content-Type: text/plain\r\n' +
+          '\r\n' +
+          'hi2\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah3.txt"\r\n' +
+          'Content-Type: text/plain\r\n' +
+          '\r\n' +
+          'hi3\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah4.txt"\r\n' +
+          'Content-Type: text/plain\r\n' +
+          '\r\n' +
+          'hi4\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n'
         );
       });
     }
   },
   {
-    name: "issue 32",
+    name: 'issue 32',
     fn: function(cb) {
       var client;
       var server = http.createServer(function(req, res) {
@@ -652,7 +652,7 @@ var standaloneTests = [
             console.error(err.stack);
             return;
           }
-          assert.strictEqual(files.image[0].originalFilename, "测试文档")
+          assert.strictEqual(files.image[0].originalFilename, '测试文档')
           fs.unlinkSync(files.image[0].path);
           res.end();
           client.end();
@@ -663,22 +663,22 @@ var standaloneTests = [
         client = net.connect(server.address().port);
 
         client.write(
-          "POST /upload HTTP/1.1\r\n" +
-          "Accept: */*\r\n" +
-          "Content-Type: multipart/form-data; boundary=\"893e5556-f402-4fec-8180-c59333354c6f\"\r\n" +
-          "Content-Length: 187\r\n" +
-          "\r\n" +
-          "--893e5556-f402-4fec-8180-c59333354c6f\r\n" +
+          'POST /upload HTTP/1.1\r\n' +
+          'Accept: */*\r\n' +
+          'Content-Type: multipart/form-data; boundary="893e5556-f402-4fec-8180-c59333354c6f"\r\n' +
+          'Content-Length: 187\r\n' +
+          '\r\n' +
+          '--893e5556-f402-4fec-8180-c59333354c6f\r\n' +
           "Content-Disposition: form-data; name=\"image\"; filename*=utf-8''%E6%B5%8B%E8%AF%95%E6%96%87%E6%A1%A3\r\n" +
-          "\r\n" +
-          "\r\n" +
-          "--893e5556-f402-4fec-8180-c59333354c6f--\r\n"
+          '\r\n' +
+          '\r\n' +
+          '--893e5556-f402-4fec-8180-c59333354c6f--\r\n'
         );
       });
     }
   },
   {
-    name: "issue 36",
+    name: 'issue 36',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         var form = new multiparty.Form();
@@ -714,7 +714,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "issue 4",
+    name: 'issue 4',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -761,7 +761,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "max fields",
+    name: 'max fields',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -808,7 +808,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "max files size exact",
+    name: 'max files size exact',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -848,7 +848,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "max files size",
+    name: 'max files size',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -897,7 +897,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "max files size edge",
+    name: 'max files size edge',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -949,7 +949,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "missing boundary end",
+    name: 'missing boundary end',
     fn: function(cb) {
       var server = http.createServer(function(req, resp) {
         var form = new multiparty.Form();
@@ -996,7 +996,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "missing content-type error",
+    name: 'missing content-type error',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -1027,7 +1027,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "unsupported content-type error",
+    name: 'unsupported content-type error',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -1060,7 +1060,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "content-type missing boundary error",
+    name: 'content-type missing boundary error',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -1097,7 +1097,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "empty header field error",
+    name: 'empty header field error',
     fn: function(cb) {
       var server = http.createServer(function(req, resp) {
         var form = new multiparty.Form();
@@ -1144,7 +1144,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "request encoding",
+    name: 'request encoding',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {
         assert.strictEqual(req.url, '/upload');
@@ -1182,7 +1182,7 @@ var standaloneTests = [
     }
   },
   {
-    name: "stream error",
+    name: 'stream error',
     fn: function(cb) {
       var server = http.createServer(function (req, res) {
         var form = new multiparty.Form();
@@ -1204,21 +1204,21 @@ var standaloneTests = [
       }).listen(0, 'localhost', function () {
         var client = net.connect(server.address().port);
         client.write(
-          "POST / HTTP/1.1\r\n" +
-          "Content-Length: 186\r\n" +
-          "Content-Type: multipart/form-data; boundary=--WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "\r\n" +
-          "----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah1.txt\"\r\n" +
-          "Content-Type: plain/text\r\n" +
-          "\r\n" +
-          "hi1\r\n");
+          'POST / HTTP/1.1\r\n' +
+          'Content-Length: 186\r\n' +
+          'Content-Type: multipart/form-data; boundary=--WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n' +
+          'Content-Type: plain/text\r\n' +
+          '\r\n' +
+          'hi1\r\n')
         client.end();
       });
     }
   },
   {
-    name: "queued part error",
+    name: 'queued part error',
     fn: function(cb) {
       var server = http.createServer(function (req, res) {
         var form = new multiparty.Form();
@@ -1261,24 +1261,24 @@ var standaloneTests = [
       }).listen(0, 'localhost', function () {
         var client = net.connect(server.address().port);
         client.end(
-          "POST / HTTP/1.1\r\n" +
-          "Content-Length: 174\r\n" +
-          "Content-Type: multipart/form-data; boundary=--bounds\r\n" +
-          "\r\n" +
-          "----bounds\r\n" +
-          "Content-Disposition: form-data; name=\"key\"\r\n" +
-          "\r\n" +
-          "hi\r\n" +
-          "----bounds\r\n" +
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"blah1.txt\"\r\n" +
-          "Content-Type: plain/text\r\n" +
-          "\r\n" +
-          "bye");
+          'POST / HTTP/1.1\r\n' +
+          'Content-Length: 174\r\n' +
+          'Content-Type: multipart/form-data; boundary=--bounds\r\n' +
+          '\r\n' +
+          '----bounds\r\n' +
+          'Content-Disposition: form-data; name="key"\r\n' +
+          '\r\n' +
+          'hi\r\n' +
+          '----bounds\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n' +
+          'Content-Type: plain/text\r\n' +
+          '\r\n' +
+          'bye')
       });
     }
   },
   {
-    name: "issue 198",
+    name: 'issue 198',
     fn: function(cb) {
       var client;
       var server = http.createServer(function(req, res) {
@@ -1289,8 +1289,8 @@ var standaloneTests = [
             console.error(err.stack);
             return;
           }
-          assert.strictEqual(path.extname(files.image[0].path), ".y");
-          assert.strictEqual(files.image[0].originalFilename, "x.y\u2028%24(echo subshell)");
+          assert.strictEqual(path.extname(files.image[0].path), '.y')
+          assert.strictEqual(files.image[0].originalFilename, 'x.y\u2028%24(echo subshell)')
           fs.unlinkSync(files.image[0].path);
           res.end();
           client.end();
@@ -1301,16 +1301,16 @@ var standaloneTests = [
         client = net.connect(server.address().port);
 
         client.write(
-          "POST /upload HTTP/1.1\r\n" +
-          "Accept: */*\r\n" +
-          "Content-Type: multipart/form-data; boundary=\"893e5556-f402-4fec-8180-c59333354c6f\"\r\n" +
-          "Content-Length: 217\r\n" +
-          "\r\n" +
-          "--893e5556-f402-4fec-8180-c59333354c6f\r\n" +
+          'POST /upload HTTP/1.1\r\n' +
+          'Accept: */*\r\n' +
+          'Content-Type: multipart/form-data; boundary="893e5556-f402-4fec-8180-c59333354c6f"\r\n' +
+          'Content-Length: 217\r\n' +
+          '\r\n' +
+          '--893e5556-f402-4fec-8180-c59333354c6f\r\n' +
           "Content-Disposition: form-data; name=\"image\"; filename*=utf-8''%78%2E%79%E2%80%A8%24%28%65%63%68%6F%20%73%75%62%73%68%65%6C%6C%29\r\n" +
-          "\r\n" +
-          "\r\n" +
-          "--893e5556-f402-4fec-8180-c59333354c6f--\r\n"
+          '\r\n' +
+          '\r\n' +
+          '--893e5556-f402-4fec-8180-c59333354c6f--\r\n'
         );
       });
     }

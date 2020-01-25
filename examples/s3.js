@@ -1,6 +1,6 @@
 if (!process.env.S3_BUCKET || !process.env.S3_KEY || !process.env.S3_SECRET) {
-  console.log("To run this example, do this:");
-  console.log("npm install aws-sdk");
+  console.log('To run this example, do this:')
+  console.log('npm install aws-sdk')
   console.log('S3_BUCKET="(your s3 bucket)" S3_KEY="(your s3 key)" S3_SECRET="(your s3 secret) node examples/s3.js"');
   process.exit(1);
 }
@@ -44,9 +44,9 @@ var server = http.createServer(function(req, res) {
         ContentLength: part.byteCount
       }, function(err, data) {
         if (err) throw err;
-        console.log("done", data);
-        res.end("OK");
-        console.log("https://s3.amazonaws.com/" + bucket + '/' + destPath);
+        console.log('done', data)
+        res.end('OK')
+        console.log('https://s3.amazonaws.com/' + bucket + '/' + destPath)
       });
     });
     form.parse(req);

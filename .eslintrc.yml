@@ -17,3 +17,8 @@ rules:
       args: none
       ignoreRestSiblings: true
   no-useless-escape: error
+  quotes:
+    - error
+    - single
+    - avoidEscape: true
+      allowTemplateLiterals: false

@@ -187,7 +187,7 @@ Form.prototype.parse = function(req, cb) {
   function onReqAborted() {
     waitend = false;
     self.emit('aborted');
-    handleError(new Error("Request aborted"));
+    handleError(new Error('Request aborted'))
   }
 
   function onReqEnd() {
@@ -397,14 +397,14 @@ Form.prototype._write = function(buffer, encoding, cb) {
           self.onParsePartEnd();
           state = END;
         } else if (index > 1) {
-          return self.handleError(new Error("Parser has invalid state."));
+          return self.handleError(new Error('Parser has invalid state.'))
         }
         index++;
         break;
       case END:
         break;
       default:
-        self.handleError(new Error("Parser has invalid state."));
+        self.handleError(new Error('Parser has invalid state.'))
         return;
     }
   }
@@ -557,7 +557,7 @@ function endFlush(self) {
   if (self.flushing < 0) {
     // if this happens this is a critical bug in multiparty and this stack trace
     // will help us figure it out.
-    self.handleError(new Error("unexpected endFlush"));
+    self.handleError(new Error('unexpected endFlush'))
     return;
   }
 
@@ -734,9 +734,9 @@ function clearPartVars(self) {
   self.destStream = null;
 
   self.headerFieldDecoder = new StringDecoder(self.encoding);
-  self.headerField = "";
+  self.headerField = ''
   self.headerValueDecoder = new StringDecoder(self.encoding);
-  self.headerValue = "";
+  self.headerValue = ''
 }
 
 function setUpParser(self, boundary) {
