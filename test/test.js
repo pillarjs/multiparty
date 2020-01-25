@@ -400,7 +400,7 @@ var standaloneTests = [
         assert.strictEqual(req.url, '/upload');
         assert.strictEqual(req.method, 'POST');
 
-        var form = new multiparty.Form({autoFields:true,autoFiles:true});
+        var form = new multiparty.Form({ autoFields: true, autoFiles: true })
 
         form.on('error', function(err) {
           console.log(err);
@@ -468,7 +468,7 @@ var standaloneTests = [
     fn: function(cb) {
       var client;
       var server = http.createServer(function (req, res) {
-        var form = new multiparty.Form({maxFields: 1});
+        var form = new multiparty.Form({ maxFields: 1 })
         form.on('aborted', function () {
           throw new Error('did not expect aborted')
         });
@@ -513,7 +513,7 @@ var standaloneTests = [
     fn: function(cb) {
       var client;
       var server = http.createServer(function (req, res) {
-        var form = new multiparty.Form({maxFieldsSize: 8});
+        var form = new multiparty.Form({ maxFieldsSize: 8 })
         form.on('aborted', function () {
           throw new Error('did not expect aborted')
         });
@@ -720,7 +720,7 @@ var standaloneTests = [
         assert.strictEqual(req.url, '/upload');
         assert.strictEqual(req.method, 'POST');
 
-        var form = new multiparty.Form({autoFields:true,autoFiles:true});
+        var form = new multiparty.Form({ autoFields: true, autoFiles: true })
 
         form.on('error', function(err) {
           console.log(err);
@@ -767,7 +767,7 @@ var standaloneTests = [
         assert.strictEqual(req.url, '/upload');
         assert.strictEqual(req.method, 'POST');
 
-        var form = new multiparty.Form({autoFiles:true,maxFields:2});
+        var form = new multiparty.Form({ autoFiles: true, maxFields: 2 })
 
         var first = true;
         form.on('error', function (err) {
@@ -814,7 +814,7 @@ var standaloneTests = [
         assert.strictEqual(req.url, '/upload');
         assert.strictEqual(req.method, 'POST');
 
-        var form = new multiparty.Form({autoFiles:true,maxFilesSize:768323}); // exact size of pf1y5.png
+        var form = new multiparty.Form({ autoFiles: true, maxFilesSize: 768323 }) // exact size of pf1y5.png
 
         var fileCount = 0;
         form.on('file', function(name, file) {
@@ -854,7 +854,7 @@ var standaloneTests = [
         assert.strictEqual(req.url, '/upload');
         assert.strictEqual(req.method, 'POST');
 
-        var form = new multiparty.Form({autoFiles:true,maxFilesSize:800*1024});
+        var form = new multiparty.Form({ autoFiles: true, maxFilesSize: 800 * 1024 })
 
         var first = true;
         form.on('error', function (err) {
@@ -1405,12 +1405,12 @@ function uploadFixture(server, path, cb) {
 
     form.on('error', callback);
     form.on('file', function(name, value) {
-      var o = {type: 'file', name: name, value: value};
+      var o = { type: 'file', name: name, value: value }
       parts.push(o);
       pend.go(computeSha1(o));
     });
     form.on('field', function(name, value) {
-      parts.push({type: 'field', name: name, value: value});
+      parts.push({ type: 'field', name: name, value: value })
     });
     form.on('close', function() {
       res.end('OK');
@@ -1432,7 +1432,7 @@ function uploadFixture(server, path, cb) {
   var socket = net.createConnection(port)
   var file = fs.createReadStream(path)
 
-  file.pipe(socket, {end: false});
+  file.pipe(socket, { end: false })
   socket.on('data', function () {
     socket.end();
   });

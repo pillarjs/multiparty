@@ -21,6 +21,9 @@ rules:
       args: none
       ignoreRestSiblings: true
   no-useless-escape: error
+  object-curly-spacing:
+    - error
+    - always
   quotes:
     - error
     - single

@@ -39,16 +39,16 @@ http.createServer(function(req, res) {
     var form = new multiparty.Form();
 
     form.parse(req, function(err, fields, files) {
-      res.writeHead(200, {'content-type': 'text/plain'});
+      res.writeHead(200, { 'content-type': 'text/plain' });
       res.write('received upload:\n\n');
-      res.end(util.inspect({fields: fields, files: files}));
+      res.end(util.inspect({ fields: fields, files: files }));
     });
 
     return;
   }
 
   // show a file upload form
-  res.writeHead(200, {'content-type': 'text/html'});
+  res.writeHead(200, { 'content-type': 'text/html' });
   res.end(
     '<form action="/upload" enctype="multipart/form-data" method="post">'+
     '<input type="text" name="title"><br>'+

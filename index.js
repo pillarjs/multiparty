@@ -595,7 +595,7 @@ function cleanupOpenFiles(self) {
 }
 
 function holdEmitQueue(self, eventEmitter) {
-  var item = {cb: null, ee: eventEmitter, err: null};
+  var item = { cb: null, ee: eventEmitter, err: null }
   self.emitQueue.push(item);
   return function(cb) {
     item.cb = cb;
@@ -663,11 +663,11 @@ function handleFile(self, fileStream) {
   });
   fs.open(publicFile.path, 'wx', function(err, fd) {
     if (err) return self.handleError(err);
-    var slicer = fdSlicer.createFromFd(fd, {autoClose: true});
+    var slicer = fdSlicer.createFromFd(fd, { autoClose: true })
 
     // end option here guarantees that no more than that amount will be written
     // or else an error will be emitted
-    internalFile.ws = slicer.createWriteStream({end: self.maxFilesSize - self.totalFileSize});
+    internalFile.ws = slicer.createWriteStream({ end: self.maxFilesSize - self.totalFileSize })
 
     // if an error ocurred while we were waiting for fs.open we handle that
     // cleanup now

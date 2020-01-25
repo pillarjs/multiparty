@@ -19,7 +19,7 @@ var s3Client = new AWS.S3({
 
 var server = http.createServer(function(req, res) {
   if (req.url === '/') {
-    res.writeHead(200, {'content-type': 'text/html'});
+    res.writeHead(200, { 'content-type': 'text/html' })
     res.end(
       '<form action="/upload" enctype="multipart/form-data" method="post">'+
       '<input type="text" name="path" placeholder="s3 key here"><br>'+
@@ -52,7 +52,7 @@ var server = http.createServer(function(req, res) {
     form.parse(req);
 
   } else {
-    res.writeHead(404, {'content-type': 'text/plain'});
+    res.writeHead(404, { 'content-type': 'text/plain' })
     res.end('404');
   }
 });

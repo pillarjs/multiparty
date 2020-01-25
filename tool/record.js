@@ -16,7 +16,7 @@ var server = http.createServer(function(req, res) {
       return;
     }
 
-    res.writeHead(200, {'content-type': 'text/html'});
+    res.writeHead(200, { 'content-type': 'text/html' })
     res.end(
       '<form action="/upload" enctype="multipart/form-data" method="post">'+
       '<input type="text" name="title"><br>'+
