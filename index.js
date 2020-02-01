@@ -359,7 +359,7 @@ Form.prototype._write = function(buffer, encoding, cb) {
           } else {
             index = 0;
           }
-        } else if (index - 1 === boundaryLength)  {
+        } else if (index - 1 === boundaryLength) {
           if (self.partBoundaryFlag) {
             index = 0;
             if (c === LF) {

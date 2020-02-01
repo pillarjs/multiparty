@@ -13,6 +13,7 @@ rules:
     - error
     - 2
     - SwitchCase: 1
+  no-multi-spaces: error
   no-param-reassign: error
   no-trailing-spaces: error
   no-unused-vars:
