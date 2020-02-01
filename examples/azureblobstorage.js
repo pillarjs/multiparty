@@ -15,7 +15,6 @@ var server = http.createServer(function(req, res) {
       '</form>'
     );
   } else if (req.url === '/upload') {
-
     var blobService = azure.createBlobService();
     var form = new multiparty.Form();
 
@@ -36,7 +35,6 @@ var server = http.createServer(function(req, res) {
     });
 
     form.parse(req);
-
   }
 });
 

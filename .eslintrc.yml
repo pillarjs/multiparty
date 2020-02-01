@@ -24,6 +24,11 @@ rules:
   object-curly-spacing:
     - error
     - always
+  padded-blocks:
+    - error
+    - blocks: never
+      switches: never
+      classes: never
   quotes:
     - error
     - single
