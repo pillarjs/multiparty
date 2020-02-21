@@ -223,6 +223,11 @@ by an `error` event. In practice you do not need to handle this event.
 
 #### 'progress' (bytesReceived, bytesExpected)
 
+Emitted when a chunk of data is received for the form. The `bytesReceived`
+argument contains the total count of bytes received for this form so far. The
+`bytesExpected` argument contains the total expected bytes if known, otherwise
+`null`.
+
 #### 'close'
 
 Emitted after all parts have been parsed and emitted. Not emitted if an `error`
