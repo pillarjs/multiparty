@@ -138,6 +138,47 @@ var standaloneTests = [
     }
   },
   {
+    name: 'connection aborted after close does error',
+    fn: function (cb) {
+      var body =
+        '--foo\r\n' +
+        'Content-Disposition: form-data; name="file1"; filename="file1"\r\n' +
+        'Content-Type: application/octet-stream\r\n' +
+        '\r\nThis is the file\r\n' +
+        '--foo--\r\n'
+      var client = null
+      var error = null
+      var server = http.createServer(function (req, res) {
+        var form = new multiparty.Form()
+
+        form.on('close', function () {
+          client.destroy()
+          setTimeout(function () {
+            assert.ifError(error)
+            server.close(cb)
+          }, 100)
+        })
+
+        form.on('error', function (err) {
+          error = err
+        })
+
+        form.on('part', function (part) {
+          part.resume()
+        })
+
+        form.parse(req)
+      }).listen(0, 'localhost', function () {
+        client = net.connect(server.address().port)
+        client.write(
+          'POST / HTTP/1.1\r\n' +
+          'Content-Length: ' + Buffer.byteLength(body) + '\r\n' +
+          'Content-Type: multipart/form-data; boundary=foo\r\n\r\n' +
+          body)
+      });
+    }
+  },
+  {
     name: 'content transfer encoding',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {

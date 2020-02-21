@@ -91,6 +91,8 @@ Form.prototype.parse = function(req, cb) {
   var self = this;
   var waitend = true;
 
+  self.on('close', onClosed)
+
   if (cb) {
     // if the user supplies a callback, this implies autoFields and autoFiles
     self.autoFields = true;
@@ -182,6 +184,10 @@ Form.prototype.parse = function(req, cb) {
 
   setUpParser(self, boundary);
   req.pipe(self);
+
+  function onClosed () {
+    req.removeListener('aborted', onReqAborted)
+  }
 
   function onReqAborted() {
     waitend = false;
