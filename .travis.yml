@@ -7,7 +7,6 @@ node_js:
   - "8.17"
   - "10.19"
   - "12.16"
-sudo: false
 cache:
   directories:
     - node_modules
