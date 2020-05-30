@@ -131,7 +131,7 @@ Form.prototype.parse = function(req, cb) {
       var filesArray = files[name] || (files[name] = []);
       filesArray.push(file);
     });
-    self.on('close', function() {
+    self.on('closed', function() {
       end(function() {
         cb(null, fields, files);
       });
@@ -576,7 +576,7 @@ function maybeClose(self) {
     // their 'end' event fires before we emit the 'close' event.
     // this is covered by test/standalone/test-issue-36
     process.nextTick(function() {
-      self.emit('close');
+      self.emit('closed');
     });
   });
 }
