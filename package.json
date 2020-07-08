@@ -17,7 +17,6 @@
   ],
   "repository": "pillarjs/multiparty",
   "dependencies": {
-    "fd-slicer": "1.1.0",
     "http-errors": "~1.8.0",
     "safe-buffer": "5.2.1",
     "uid-safe": "2.1.5"

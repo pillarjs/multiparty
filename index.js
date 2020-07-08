@@ -17,7 +17,6 @@ var path = require('path');
 var os = require('os');
 var Buffer = require('safe-buffer').Buffer
 var StringDecoder = require('string_decoder').StringDecoder;
-var fdSlicer = require('fd-slicer');
 
 var START = 0;
 var START_BOUNDARY = 1;
@@ -528,6 +527,32 @@ Form.prototype.onParseHeadersEnd = function(offset) {
   }
 }
 
+util.inherits(LimitStream, stream.Transform)
+function LimitStream (limit) {
+  stream.Transform.call(this)
+
+  this.bytes = 0
+  this.limit = limit
+}
+
+LimitStream.prototype._transform = function _transform (chunk, encoding, callback) {
+  var length = !Buffer.isBuffer(chunk)
+    ? Buffer.byteLength(chunk, encoding)
+    : chunk.length
+
+  this.bytes += length
+
+  if (this.bytes > this.limit) {
+    var err = new Error('maximum file length exceeded')
+    err.code = 'ETOOBIG'
+    callback(err)
+  } else {
+    this.push(chunk)
+    this.emit('progress', this.bytes, length)
+    callback()
+  }
+}
+
 function flushWriteCbs(self) {
   self.writeCbs.forEach(function(cb) {
     process.nextTick(cb);
@@ -654,46 +679,41 @@ function handleFile(self, fileStream) {
   };
   var internalFile = {
     publicFile: publicFile,
-    ws: null
+    ls: null,
+    ws: fs.createWriteStream(publicFile.path, { flags: 'wx' })
   };
+  self.openedFiles.push(internalFile)
   beginFlush(self); // flush to write stream
   var emitAndReleaseHold = holdEmitQueue(self, fileStream);
   fileStream.on('error', function(err) {
     self.handleError(err);
   });
-  fs.open(publicFile.path, 'wx', function(err, fd) {
-    if (err) return self.handleError(err);
-    var slicer = fdSlicer.createFromFd(fd, { autoClose: true })
-
+  internalFile.ws.on('error', function (err) {
+    self.handleError(err)
+  })
+  internalFile.ws.on('open', function () {
     // end option here guarantees that no more than that amount will be written
     // or else an error will be emitted
-    internalFile.ws = slicer.createWriteStream({ end: self.maxFilesSize - self.totalFileSize })
+    internalFile.ls = new LimitStream(self.maxFilesSize - self.totalFileSize)
+    internalFile.ls.pipe(internalFile.ws)
 
-    // if an error ocurred while we were waiting for fs.open we handle that
-    // cleanup now
-    self.openedFiles.push(internalFile);
-    if (self.error) return cleanupOpenFiles(self);
-
-    var prevByteCount = 0;
-    internalFile.ws.on('error', function(err) {
+    internalFile.ls.on('error', function (err) {
       self.handleError(err.code === 'ETOOBIG'
         ? createError(413, err.message, { code: err.code })
         : err)
     });
-    internalFile.ws.on('progress', function() {
-      publicFile.size = internalFile.ws.bytesWritten;
-      var delta = publicFile.size - prevByteCount;
-      self.totalFileSize += delta;
-      prevByteCount = publicFile.size;
+    internalFile.ls.on('progress', function (totalBytes, chunkBytes) {
+      publicFile.size = totalBytes
+      self.totalFileSize += chunkBytes
     });
-    slicer.on('close', function() {
+    internalFile.ws.on('close', function () {
       if (self.error) return;
       emitAndReleaseHold(function() {
         self.emit('file', fileStream.name, publicFile);
       });
       endFlush(self);
     });
-    fileStream.pipe(internalFile.ws);
+    fileStream.pipe(internalFile.ls)
   });
 }
 
