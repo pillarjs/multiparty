@@ -50,7 +50,7 @@ util.inherits(Form, stream.Writable);
 function Form(options) {
   var opts = options || {}
   var self = this;
-  stream.Writable.call(self);
+  stream.Writable.call(self, { emitClose: false })
 
   self.error = null;
 

@@ -348,14 +348,16 @@ var standaloneTests = [
         // verification that error event implies unpipe call
         assert.ok(err);
         assert.ok(unpiped, 'req was unpiped');
-        assert.equal(req._readableState.flowing, false, 'req not flowing');
-        assert.equal(req._readableState.pipesCount, 0, 'req has 0 pipes');
+
+        assert.ok(!isReadableStreamFlowing(req), 'req not flowing')
+        assert.equal(getReadableStreamPipeCount(req), 0, 'req has 0 pipes')
         cb();
       })
 
       form.parse(req)
-      assert.equal(req._readableState.flowing, true, 'req flowing');
-      assert.equal(req._readableState.pipesCount, 1, 'req has 1 pipe');
+
+      assert.ok(isReadableStreamFlowing(req), 'req flowing')
+      assert.equal(getReadableStreamPipeCount(req), 1, 'req has 1 pipe')
     }
   },
   {
@@ -1390,6 +1392,18 @@ function computeSha1(o) {
       cb();
     });
   };
+}
+
+function getReadableStreamPipeCount (stream) {
+  var count = stream._readableState.pipesCount
+
+  return typeof count !== 'number'
+    ? stream._readableState.pipes.length
+    : count
+}
+
+function isReadableStreamFlowing (stream) {
+  return Boolean(stream._readableState.flowing)
 }
 
 function uploadFixture(server, path, cb) {

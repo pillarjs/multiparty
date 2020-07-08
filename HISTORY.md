@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Fix empty files on Node.js 14.x
   * Replace `fd-slicer` module with internal transform stream
   * deps: http-errors@~1.8.0
     - Fix error creating objects in some environments
