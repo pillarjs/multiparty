@@ -1,5 +1,5 @@
-unreleased
-==========
+4.2.2 / 2020-07-27
+==================
 
   * Fix empty files on Node.js 14.x
   * Fix form emitting aborted error after close

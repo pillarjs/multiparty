@@ -1,7 +1,7 @@
 {
   "name": "multiparty",
   "description": "multipart/form-data parser which supports streaming",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "author": "Andrew Kelley <superjoe30@gmail.com>",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
