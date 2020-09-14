@@ -1357,6 +1357,52 @@ var standaloneTests = [
         );
       });
     }
+  },
+  {
+    name: 'issue 231',
+    fn: function(cb) {
+      var server = http.createServer(async function(req, res) {
+        var stream = await getFile(req);
+
+        try {
+          for await (var data of stream) { // eslint-disable-line no-unused-vars
+            throw new Error('error');
+          }
+        } catch(err) {
+          res.writeHead(500);
+          res.end(err.message);
+        }
+
+        return;
+
+        function getFile(req) {
+          return new Promise(function(resolve) {
+            var form = new multiparty.Form();
+
+            form.on('part', (part) => {
+              if (!part.filename) {
+                part.resume();
+                return;
+              }
+              resolve(part);
+            });
+
+            form.parse(req);
+          });
+        }
+      });
+
+      server.listen(function() {
+        var url = 'http://localhost:' + server.address().port + '/upload';
+        var req = superagent.post(url);
+        req.attach('file1', path.join(FIXTURE_PATH, 'file', 'binaryfile.tar.gz'), 'binaryfile.tar.gz');
+        req.end();
+        req.on('response', function(res) {
+          assert.equal(res.statusCode, 500);
+          server.close(cb);
+        });
+      });
+    }
   }
 ];
 
