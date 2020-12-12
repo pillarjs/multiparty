@@ -3,7 +3,7 @@
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Node.js Version][node-version-image]][node-version-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][github-actions-ci-image]][github-actions-ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
 Parse http requests with content-type `multipart/form-data`, also known as file uploads.
@@ -265,10 +265,10 @@ stream uploads to disk for you.
 
 [coveralls-image]: https://badgen.net/coveralls/c/github/pillarjs/multiparty/master
 [coveralls-url]: https://coveralls.io/r/pillarjs/multiparty?branch=master
+[github-actions-ci-image]: https://badgen.net/github/checks/pillarjs/multiparty/master?label=ci
+[github-actions-ci-url]: https://github.com/pillarjs/multiparty/actions?query=workflow%3Aci
 [node-version-image]: https://badgen.net/npm/node/multiparty
 [node-version-url]: https://nodejs.org/en/download
 [npm-downloads-image]: https://badgen.net/npm/dm/multiparty
 [npm-url]: https://npmjs.org/package/multiparty
 [npm-version-image]: https://badgen.net/npm/v/multiparty
-[travis-image]: https://badgen.net/travis/pillarjs/multiparty/master
-[travis-url]: https://travis-ci.org/pillarjs/multiparty
