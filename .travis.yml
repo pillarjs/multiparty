@@ -93,6 +93,6 @@ jobs:
   exclude:
     - node_js: "0.10"
       arch: ppc64le
-    - node_js: "0.10"
+    - node_js: "0.12"
       arch: ppc64le
     
