@@ -60,7 +60,7 @@ function Form(options) {
   self.maxFields = opts.maxFields || 1000
   self.maxFieldsSize = opts.maxFieldsSize || 2 * 1024 * 1024
   self.maxFilesSize = opts.maxFilesSize || Infinity
-  self.uploadDir = opts.uploadDir || os.tmpdir()
+  self.uploadDir = opts.uploadDir || (os.tmpdir && os.tmpdir()) || os.tmpDir()
   self.encoding = opts.encoding || 'utf8'
 
   self.bytesReceived = 0;
