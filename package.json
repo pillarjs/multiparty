@@ -22,7 +22,7 @@
     "uid-safe": "2.1.5"
   },
   "devDependencies": {
-    "eslint": "7.5.0",
+    "eslint": "7.17.0",
     "eslint-plugin-markdown": "1.0.2",
     "mkdirp": "0.5.5",
     "mocha": "7.2.0",
