@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "eslint": "7.23.0",
-    "eslint-plugin-markdown": "1.0.2",
+    "eslint-plugin-markdown": "2.0.1",
     "mkdirp": "0.5.5",
     "mocha": "8.3.2",
     "nyc": "15.1.0",
@@ -42,7 +42,7 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "lint": "eslint --plugin markdown --ext js,md .",
+    "lint": "eslint .",
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "nyc --reporter=lcov --reporter=text npm test",
     "test-cov": "nyc --reporter=html --reporter=text npm test"
