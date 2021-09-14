@@ -50,7 +50,7 @@ jobs:
           npm-i: mocha@8.4.0
 
         - name: Node.js 14.x
-          node-version: "14.17"
+          node-version: "14.18"
 
         - name: Node.js 16.x
           node-version: "16.9"
