@@ -18,6 +18,8 @@ var os = require('os');
 var Buffer = require('safe-buffer').Buffer
 var StringDecoder = require('string_decoder').StringDecoder;
 
+os.tmpDir = os.tmpdir
+
 var START = 0;
 var START_BOUNDARY = 1;
 var HEADER_FIELD_START = 2;
