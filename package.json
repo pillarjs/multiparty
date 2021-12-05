@@ -17,7 +17,7 @@
   ],
   "repository": "pillarjs/multiparty",
   "dependencies": {
-    "http-errors": "~1.8.0",
+    "http-errors": "~1.8.1",
     "safe-buffer": "5.2.1",
     "uid-safe": "2.1.5"
   },
