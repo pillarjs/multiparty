@@ -6,7 +6,7 @@
 [![Build Status][github-actions-ci-image]][github-actions-ci-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
-Parse http requests with content-type `multipart/form-data`, also known as file uploads.
+Parse http requests with content-type `multipart/form-data`, also known as file uploads, or `multipart/mixed`.
 
 See also [busboy](https://github.com/mscdex/busboy) - a
 [faster](https://github.com/mscdex/dicer/wiki/Benchmarks) alternative
