@@ -30,7 +30,7 @@
     "pend": "1.2.0",
     "require-all": "3.0.0",
     "rimraf": "2.6.3",
-    "superagent": "2.3.0"
+    "superagent": "3.8.3"
   },
   "files": [
     "HISTORY.md",
