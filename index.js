@@ -42,7 +42,9 @@ var Z = 122;
 var CONTENT_TYPE_RE = /^multipart\/(?:form-data|related)(?:;|$)/i;
 var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;
 var FILE_EXT_RE = /(\.[_\-a-zA-Z0-9]{0,16})[\S\s]*/;
+var FILENAME_PARAM_RE = /\bfilename=(?:"(.*?)"|([!#$%&'*+.0-9A-Z^_`a-z|~-]+))($|; )/i
 var LAST_BOUNDARY_SUFFIX_LEN = 4; // --\r\n
+var NAME_PARAM_RE = /\bname=(?:"([^"]+)"|([!#$%&'*+.0-9A-Z^_`a-z|~-]+))/i
 
 exports.Form = Form;
 
@@ -458,8 +460,8 @@ Form.prototype.onParseHeaderEnd = function() {
 
   var m;
   if (this.headerField === 'content-disposition') {
-    if (m = this.headerValue.match(/\bname="([^"]+)"/i)) {
-      this.partName = m[1];
+    if (m = NAME_PARAM_RE.exec(this.headerValue)) {
+      this.partName = m[1] || m[2] || ''
     }
     this.partFilename = parseFilename(this.headerValue);
   } else if (this.headerField === 'content-transfer-encoding') {
@@ -795,7 +797,7 @@ function uploadPath(baseDir, filename) {
 }
 
 function parseFilename(headerValue) {
-  var m = headerValue.match(/\bfilename="(.*?)"($|; )/i);
+  var m = FILENAME_PARAM_RE.exec(headerValue)
   if (!m) {
     m = headerValue.match(/\bfilename\*=utf-8''(.*?)($|; )/i)
     if (m) {
@@ -805,7 +807,7 @@ function parseFilename(headerValue) {
     }
   }
 
-  var filename = m[1];
+  var filename = m[1] || m[2] || '';
   filename = filename.replace(/%22|\\"/g, '"');
   filename = filename.replace(/&#([\d]{4});/g, function(m, code) {
     return String.fromCharCode(code);

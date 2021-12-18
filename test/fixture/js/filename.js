@@ -24,3 +24,11 @@ module.exports['quotes.http'] = [{
   fixture: 'plain.txt',
   sha1: 'b31d07bac24ac32734de88b3687dddb10e976872'
 }]
+
+module.exports['unquoted.http'] = [{
+  type: 'file',
+  name: 'upload',
+  filename: 'foo_bar.txt',
+  fixture: 'plain.txt',
+  sha1: 'b31d07bac24ac32734de88b3687dddb10e976872'
+}]
