@@ -110,14 +110,14 @@ form.on('part', function(part) {
   // You *must* act on the part by reading it
   // NOTE: if you want to ignore it, just call "part.resume()"
 
-  if (!part.filename) {
+  if (part.filename === undefined) {
     // filename is not defined when this is a field and not a file
     console.log('got field named ' + part.name);
     // ignore field's content
     part.resume();
   }
 
-  if (part.filename) {
+  if (part.filename !== undefined) {
     // filename is defined when this is a file
     count++;
     console.log('got file named ' + part.name);
