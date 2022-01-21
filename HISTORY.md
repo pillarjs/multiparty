@@ -1,5 +1,5 @@
-unreleased
-==========
+4.2.3 / 2022-01-20
+==================
 
   * Fix handling of unquoted values in `Content-Disposition`
   * deps: http-errors@~1.8.1
