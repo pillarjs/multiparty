@@ -672,7 +672,14 @@ function handlePart(self, partStream) {
     endFlush(self);
   });
   emitAndReleaseHold(function() {
-    self.emit('part', partStream);
+    if (hasListeners(self, 'part')) {
+      self.emit('part', partStream)
+    } else {
+      partStream.on('error', function (err) {
+        self.handleError(err)
+      })
+      partStream.resume()
+    }
   });
 }
 
@@ -752,6 +759,26 @@ function handleField(self, fieldStream) {
     });
     endFlush(self);
   });
+}
+
+/**
+ * Determine if emitter has listeners of a given type.
+ *
+ * The way to do this check is done three different ways in Node.js >= 0.10
+ * so this consolidates them into a minimal set using instance methods.
+ *
+ * @param {EventEmitter} emitter
+ * @param {string} type
+ * @returns {boolean}
+ * @private
+ */
+
+function hasListeners (emitter, type) {
+  var count = typeof emitter.listenerCount !== 'function'
+    ? emitter.listeners(type).length
+    : emitter.listenerCount(type)
+
+  return count > 0
 }
 
 function clearPartVars(self) {

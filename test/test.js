@@ -1357,6 +1357,68 @@ var standaloneTests = [
         );
       });
     }
+  },
+  {
+    name: 'no part listener',
+    fn: function (cb) {
+      var server = http.createServer(function (req, res) {
+        var form = new multiparty.Form()
+        form.on('close', function () {
+          res.statusCode = 204
+          res.end()
+        })
+        form.parse(req)
+      })
+      server.listen(function () {
+        var url = 'http://localhost:' + server.address().port + '/'
+        var req = superagent.post(url)
+        req.set('Content-Type', 'multipart/form-data; boundary=--WebKitFormBoundaryvfUZhxgsZDO7FXLF')
+        req.set('Content-Length', '186')
+        req.write('----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n')
+        req.write('Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n')
+        req.write('Content-Type: plain/text\r\n')
+        req.write('\r\n')
+        req.write('hi1\r\n')
+        req.write('\r\n')
+        req.write('----WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n')
+        req.end(function (err, resp) {
+          server.close(function () {
+            if (err) cb(err)
+            assert.strictEqual(resp.statusCode, 204)
+            cb()
+          })
+        })
+      })
+    }
+  },
+  {
+    name: 'no part listener, stream error',
+    fn: function (cb) {
+      var server = http.createServer(function (req, res) {
+        var form = new multiparty.Form()
+        form.on('error', function (err) {
+          assert.ok(err)
+          server.close(cb)
+        })
+        form.on('close', function () {
+          throw new Error('Unexpected "close" event')
+        })
+        form.parse(req)
+      }).listen(0, 'localhost', function () {
+        var client = net.connect(server.address().port)
+        client.write(
+          'POST / HTTP/1.1\r\n' +
+          'Content-Length: 186\r\n' +
+          'Content-Type: multipart/form-data; boundary=--WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="upload"; filename="blah1.txt"\r\n' +
+          'Content-Type: plain/text\r\n' +
+          '\r\n' +
+          'hi1\r\n')
+        client.end()
+      })
+    }
   }
 ];
 

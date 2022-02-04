@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix form parsing when no `part` event listener added
+
 4.2.3 / 2022-01-20
 ==================
 
