@@ -1435,7 +1435,7 @@ describe('multiparty', function () {
   })
 
   describe('fixture tests', function () {
-    var fixtureServer = http.createServer()
+    var fixtureServer = http.createServer({ insecureHTTPParser: true })
     var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
 
     before(function (done) {
