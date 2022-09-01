@@ -14,6 +14,7 @@ var stream = require('stream');
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
+var zlib = require('zlib')
 var os = require('os');
 var Buffer = require('safe-buffer').Buffer
 var StringDecoder = require('string_decoder').StringDecoder;
@@ -185,7 +186,15 @@ Form.prototype.parse = function(req, cb) {
   }
 
   setUpParser(self, boundary);
-  req.pipe(self);
+
+  // support gzip
+  if (/gzip/i.test(req.headers['content-encoding'])) {
+    var gunzip = zlib.createGunzip();
+    req.pipe(gunzip);
+    gunzip.pipe(self);
+  } else {
+    req.pipe(self);
+  }
 
   function onClosed () {
     req.removeListener('aborted', onReqAborted)
