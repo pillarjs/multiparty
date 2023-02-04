@@ -19,7 +19,7 @@ jobs:
         - Node.js 12.x
         - Node.js 14.x
         - Node.js 16.x
-        - Node.js 17.x
+        - Node.js 18.x
 
         include:
         - name: Node.js 0.10
@@ -56,8 +56,8 @@ jobs:
         - name: Node.js 16.x
           node-version: "16.16"
 
-        - name: Node.js 17.x
-          node-version: "17.9"
+        - name: Node.js 18.x
+          node-version: "18.14"
 
     steps:
     - uses: actions/checkout@v3
@@ -69,7 +69,12 @@ jobs:
         dirname "$(nvm which ${{ matrix.node-version }})" >> "$GITHUB_PATH"
 
     - name: Configure npm
-      run: npm config set shrinkwrap false
+      run: |
+        if [[ "$(npm config get package-lock)" == "true" ]]; then
+          npm config set package-lock false
+        else
+          npm config set shrinkwrap false
+        fi
 
     - name: Install npm module(s) ${{ matrix.npm-i }}
       run: npm install --save-dev ${{ matrix.npm-i }}
