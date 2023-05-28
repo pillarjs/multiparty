@@ -24,7 +24,7 @@
   "devDependencies": {
     "eslint": "8.37.0",
     "eslint-plugin-markdown": "3.0.0",
-    "mkdirp": "0.5.5",
+    "mkdirp": "0.5.6",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
     "pend": "1.2.0",
