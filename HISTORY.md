@@ -2,6 +2,9 @@ unreleased
 ==========
 
   * Fix form parsing when no `part` event listener added
+  * deps: http-errors@2.0.0
+    - deps: depd@2.0.0
+    - deps: statuses@2.0.1
 
 4.2.3 / 2022-01-20
 ==================
