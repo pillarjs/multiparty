@@ -1,5 +1,6 @@
 .nyc_output/
 node_modules/
 coverage/
+test/tmp/
 npm-debug.log
 package-lock.json

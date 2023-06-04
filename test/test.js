@@ -12,7 +12,6 @@ var net = require('net');
 var stream = require('stream');
 var assert = require('assert');
 var multiparty = require('../');
-var mkdirp = require('mkdirp');
 var superagent = require('superagent');
 var FIXTURE_PATH = path.join(__dirname, 'fixture');
 var TMP_PATH = path.join(__dirname, 'tmp');
@@ -1426,7 +1425,7 @@ describe('multiparty', function () {
   before(function (done) {
     rimraf(TMP_PATH, function (err) {
       if (err) return done(err)
-      mkdirp(TMP_PATH, done)
+      fs.mkdir(TMP_PATH, done)
     })
   })
 
