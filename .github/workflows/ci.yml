@@ -54,7 +54,7 @@ jobs:
           node-version: "14.21"
 
         - name: Node.js 16.x
-          node-version: "16.19"
+          node-version: "16.20"
 
         - name: Node.js 18.x
           node-version: "18.16"
