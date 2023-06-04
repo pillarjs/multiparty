@@ -836,7 +836,7 @@ function parseFilename(headerValue) {
 
   var filename = m[1] || m[2] || '';
   filename = filename.replace(/%22|\\"/g, '"');
-  filename = filename.replace(/&#([\d]{4});/g, function(m, code) {
+  filename = filename.replace(/&#([0-9]{1,5});/g, function(m, code) {
     return String.fromCharCode(code);
   });
   return filename.substr(filename.lastIndexOf('\\') + 1);

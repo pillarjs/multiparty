@@ -1,0 +1,16 @@
+POST /upload HTTP/1.1
+Host: localhost:8080
+Content-Length: 363
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarytyE4wkKlZ5CQJVTG
+
+------WebKitFormBoundarytyE4wkKlZ5CQJVTG
+Content-Disposition: form-data; name="title"
+
+Weird filename
+------WebKitFormBoundarytyE4wkKlZ5CQJVTG
+Content-Disposition: form-data; name="upload"; filename="J&#923;&#778;KE_2023-02-25T16:44:24.129Z.txt"
+Content-Type: text/plain
+
+I am a text file with a funky name!
+
+------WebKitFormBoundarytyE4wkKlZ5CQJVTG--

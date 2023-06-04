@@ -20,6 +20,18 @@ var webkit = " ? % * | \" < > . ? ; ' @ # $ ^ & ( ) - _ = + { } [ ] ` ~.txt";
 var ffOrIe = " ? % * | \" < > . ☃ ; ' @ # $ ^ & ( ) - _ = + { } [ ] ` ~.txt";
 
 module.exports = {
+  'issue-252-chrome.http' : [
+    {
+      type: 'field',
+      name: 'title',
+      value: 'Weird filename'
+    },
+    {
+      type: 'file',
+      name: 'upload',
+      filename: 'JΛ̊KE_2023-02-25T16:44:24.129Z.txt'
+    }
+  ],
   'osx-chrome-13.http'   : expect(webkit),
   'osx-firefox-3.6.http' : expect(ffOrIe),
   'osx-safari-5.http'    : expect(webkit),
