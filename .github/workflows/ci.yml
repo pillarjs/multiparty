@@ -57,7 +57,7 @@ jobs:
           node-version: "16.19"
 
         - name: Node.js 18.x
-          node-version: "18.14"
+          node-version: "18.16"
 
     steps:
     - uses: actions/checkout@v3
