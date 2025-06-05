@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "eslint": "8.42.0",
-    "eslint-plugin-markdown": "3.0.0",
+    "eslint-plugin-markdown": "3.0.1",
     "mocha": "10.2.0",
     "nyc": "15.1.0",
     "pend": "1.2.0",
