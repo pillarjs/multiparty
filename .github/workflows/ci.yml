@@ -4,8 +4,14 @@ on:
 - pull_request
 - push
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -64,7 +70,7 @@ jobs:
           node-version: "20.2"
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
     - name: Install Node.js ${{ matrix.node-version }}
       shell: bash -eo pipefail -l {0}
@@ -117,18 +123,20 @@ jobs:
       run: npm run lint
 
     - name: Collect code coverage
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         flag-name: run-${{ matrix.test_number }}
         parallel: true
 
   coverage:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
     needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Uploade code coverage
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
