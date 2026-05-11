@@ -127,12 +127,24 @@ Form.prototype.parse = function(req, cb) {
       });
     });
     self.on('field', function(name, value) {
-      var fieldsArray = fields[name] || (fields[name] = []);
-      fieldsArray.push(value);
+      var fieldsArray = Object.prototype.hasOwnProperty.call(fields, name)
+        ? fields[name]
+        : undefined;
+      if (Array.isArray(fieldsArray)) {
+        fieldsArray.push(value);
+      } else {
+        fields[name] = [value]
+      }
     });
     self.on('file', function(name, file) {
-      var filesArray = files[name] || (files[name] = []);
-      filesArray.push(file);
+      var filesArray = Object.prototype.hasOwnProperty.call(files, name)
+        ? files[name]
+        : undefined;
+      if (Array.isArray(filesArray)) {
+        filesArray.push(file);
+      } else {
+        files[name] = [file]
+      }
     });
     self.on('close', function() {
       end(function() {

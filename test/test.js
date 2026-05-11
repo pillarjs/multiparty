@@ -600,6 +600,59 @@ var standaloneTests = [
     }
   },
   {
+    name: 'safely handles __proto__ field name',
+    fn: function(cb) {
+      var client;
+      var server = http.createServer(function (req, res) {
+        var form = new multiparty.Form()
+        form.on('aborted', function () {
+          throw new Error('did not expect aborted')
+        });
+        form.on('error', function (err) {
+          throw new Error('did not expect error: ' + err.message);
+        });
+        form.parse(req, function(err, fields, files) {
+          if (err) {
+            throw new Error('did not expect parse error: ' + err.message);
+          }
+
+          assert.ok(fields['__proto__'], 'fields should have __proto__ key');
+          assert.strictEqual(fields['__proto__'][0], '__proto__');
+          res.end('ok');
+        });
+      });
+
+      server.listen(function() {
+        client = net.connect(server.address().port);
+
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Host: localhost\r\n' +
+          'Content-Length: 245\r\n' +
+          'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="__proto__"\r\n' +
+          '\r\n' +
+          '__proto__' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n' +
+          'Content-Disposition: form-data; name="text"\r\n' +
+          '\r\n' +
+          'hi1\r\n' +
+          '\r\n' +
+          '------WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n');
+
+        client.on('data', function(data) {
+          client.end();
+        });
+
+        client.on('close', function() {
+          server.close(cb);
+        });
+      });
+    }
+  },
+  {
     name: 'issue 21',
     fn: function(cb) {
       var client;
@@ -942,6 +995,52 @@ var standaloneTests = [
       function fixture(name) {
         return path.join(FIXTURE_PATH, 'file', name)
       }
+    }
+  },
+  {
+    name: 'safely stores files when field name is __proto__',
+    fn: function(cb) {
+      var server = http.createServer(function(req, res) {
+        var form = new multiparty.Form();
+
+        form.on('part', function(part) {
+          part.resume();
+        });
+
+        form.on('error', function(err) {
+          assert.ifError(err);
+        });
+
+        form.on('close', function() {
+          res.end('OK');
+        });
+
+        form.parse(req, function(err, fields, files) {
+          assert.deepStrictEqual(files['__proto__'][0].fieldName, '__proto__');
+          if (err) {
+            res.end('Parse callback error: ' + err.message + '\n');
+            return;
+          }
+          res.end('Parse callback success\n');
+        });
+      });
+      server.listen(function() {
+        var url = 'http://localhost:' + server.address().port + '/'
+        var req = superagent.post(url)
+        req.set('Content-Type', 'multipart/form-data; boundary=--WebKitFormBoundaryvfUZhxgsZDO7FXLF')
+        req.write('----WebKitFormBoundaryvfUZhxgsZDO7FXLF\r\n');
+        req.write('Content-Disposition: form-data; name="__proto__"; filename="blah1.txt"\r\n');
+        req.write('Content-Type: plain/text\r\n');
+        req.write('\r\n');
+        req.write('hi1\r\n');
+        req.write('\r\n');
+        req.write('----WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n');
+        req.end(function(err, resp) {
+          assert.ifError(err);
+          resp.resume()
+          server.close(cb);
+        });
+      });
     }
   },
   {
