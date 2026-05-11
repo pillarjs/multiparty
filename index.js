@@ -40,11 +40,11 @@ var A = 97;
 var Z = 122;
 
 var CONTENT_TYPE_RE = /^multipart\/(?:form-data|related)(?:;|$)/i;
-var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;
+var CONTENT_TYPE_BOUNDARY_RE = /;[ \t]*boundary=(?:"([^"]*)"|([^;]+))/gi;
 var FILE_EXT_RE = /(\.[_\-a-zA-Z0-9]{0,16})[\S\s]*/;
-var FILENAME_PARAM_RE = /\bfilename=(?:"(.*?)"|([!#$%&'*+.0-9A-Z^_`a-z|~-]+))($|; )/i
+var FILENAME_PARAM_RE = /;[ \t]*filename=(?:"((?:[^"]|"(?![ \t]*(?:;|$)))*)"|([^;]+))/i
 var LAST_BOUNDARY_SUFFIX_LEN = 4; // --\r\n
-var NAME_PARAM_RE = /\bname=(?:"([^"]+)"|([!#$%&'*+.0-9A-Z^_`a-z|~-]+))/i
+var NAME_PARAM_RE = /;[ \t]*name=(?:"([^"]*)"|([^;]+))/i
 
 exports.Form = Form;
 
@@ -172,10 +172,9 @@ Form.prototype.parse = function(req, cb) {
   }
 
   var boundary;
-  CONTENT_TYPE_PARAM_RE.lastIndex = m.index + m[0].length - 1;
-  while ((m = CONTENT_TYPE_PARAM_RE.exec(contentType))) {
-    if (m[1].toLowerCase() !== 'boundary') continue;
-    boundary = m[2] || m[3];
+  CONTENT_TYPE_BOUNDARY_RE.lastIndex = m.index + m[0].length - 1;
+  while ((m = CONTENT_TYPE_BOUNDARY_RE.exec(contentType))) {
+    boundary = m[1] || m[2];
     break;
   }
 
@@ -826,7 +825,7 @@ function uploadPath(baseDir, filename) {
 function parseFilename(headerValue) {
   var m = FILENAME_PARAM_RE.exec(headerValue)
   if (!m) {
-    m = headerValue.match(/\bfilename\*=utf-8''(.*?)($|; )/i)
+    m = headerValue.match(/;[ \t]*filename\*=utf-8''([^;]*)/i)
     if (m) {
       m[1] = decodeURI(m[1]);
     } else {
