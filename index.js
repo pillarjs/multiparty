@@ -839,7 +839,7 @@ function parseFilename(headerValue) {
   if (!m) {
     m = headerValue.match(/;[ \t]*filename\*=utf-8''([^;]*)/i)
     if (m) {
-      m[1] = decodeURI(m[1]);
+      m[1] = tryDecode(m[1]);
     } else {
       return;
     }
@@ -855,4 +855,12 @@ function parseFilename(headerValue) {
 
 function lower(c) {
   return c | 0x20;
+}
+
+function tryDecode(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch (e) {
+    return undefined;
+  }
 }

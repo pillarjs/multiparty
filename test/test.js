@@ -1439,7 +1439,7 @@ var standaloneTests = [
             return;
           }
           assert.strictEqual(path.extname(files.image[0].path), '.y')
-          assert.strictEqual(files.image[0].originalFilename, 'x.y\u2028%24(echo subshell)')
+          assert.strictEqual(files.image[0].originalFilename, 'x.y\u2028$(echo subshell)')
           fs.unlinkSync(files.image[0].path);
           res.end();
           client.end();
@@ -1462,6 +1462,41 @@ var standaloneTests = [
           '\r\n' +
           '--893e5556-f402-4fec-8180-c59333354c6f--\r\n'
         );
+      });
+    }
+  },
+  {
+    name: 'malformed utf-8 in filename* crashes server',
+    fn: function(cb) {
+      var server = http.createServer(function(req, res) {
+        var form = new multiparty.Form();
+
+        form.on('close', function() {
+          res.end();
+          server.close(cb);
+        });
+
+        form.parse(req);
+      });
+
+      server.listen(function() {
+        var body =
+          '--foo\r\n' +
+          'Content-Disposition: form-data; name="file"; filename*=utf-8\'\'%FF\r\n' +
+          '\r\n' +
+          'test\r\n' +
+          '--foo--\r\n';
+        var socket = net.connect(server.address().port, 'localhost', function() {
+          socket.end(
+            'POST / HTTP/1.1\r\n' +
+            'Host: localhost\r\n' +
+            'Content-Type: multipart/form-data; boundary=foo\r\n' +
+            'Content-Length: ' + Buffer.byteLength(body) + '\r\n' +
+            '\r\n' +
+            body
+          );
+        });
+        socket.resume();
       });
     }
   },
