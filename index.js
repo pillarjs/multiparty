@@ -88,6 +88,22 @@ function Form(options) {
   });
 }
 
+Form.prototype.parseAsync = function (req) {
+  let t = this;
+  return new Promise((resolve,reject) => {
+    t.parse(req, function (err, fields, files) {
+        if (err) {
+            return reject(err);
+        } else {
+            return resolve({
+              fields: fields,
+              files: files
+            });
+        }
+    });
+  });
+}
+
 Form.prototype.parse = function(req, cb) {
   var called = false;
   var self = this;
