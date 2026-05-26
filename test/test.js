@@ -1011,17 +1011,10 @@ var standaloneTests = [
           assert.ifError(err);
         });
 
-        form.on('close', function() {
-          res.end('OK');
-        });
-
         form.parse(req, function(err, fields, files) {
+          assert.ifError(err);
           assert.strictEqual(files['__proto__'][0].fieldName, '__proto__');
-          if (err) {
-            res.end('Parse callback error: ' + err.message + '\n');
-            return;
-          }
-          res.end('Parse callback success\n');
+          res.end();
         });
       });
       server.listen(function() {
@@ -1035,9 +1028,9 @@ var standaloneTests = [
         req.write('hi1\r\n');
         req.write('\r\n');
         req.write('----WebKitFormBoundaryvfUZhxgsZDO7FXLF--\r\n');
-        req.end(function(err, resp) {
-          assert.ifError(err);
-          resp.resume()
+        req.end();
+        req.on('response', function(res) {
+          assert.equal(res.statusCode, 200);
           server.close(cb);
         });
       });
