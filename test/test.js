@@ -1016,7 +1016,7 @@ var standaloneTests = [
         });
 
         form.parse(req, function(err, fields, files) {
-          assert.deepStrictEqual(files['__proto__'][0].fieldName, '__proto__');
+          assert.strictEqual(files['__proto__'][0].fieldName, '__proto__');
           if (err) {
             res.end('Parse callback error: ' + err.message + '\n');
             return;
