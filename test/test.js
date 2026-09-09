@@ -601,7 +601,7 @@ var standaloneTests = [
   },
   {
     // @see https://github.com/pillarjs/multiparty/security/advisories/GHSA-5h46-2939-q3wh
-    name: 'maxHeadersSize error via header value',
+    name: 'maxHeaderSize error via header value',
     fn: function(cb) {
       var client;
       var partEmitted = false;
@@ -612,20 +612,20 @@ var standaloneTests = [
         'v\r\n' +
         '------x--\r\n';
       var server = http.createServer(function (req) {
-        var form = new multiparty.Form({ maxHeadersSize: 32 });
+        var form = new multiparty.Form({ maxHeaderSize: 32 });
         form.on('part', function (part) { partEmitted = true; part.resume(); });
         form.on('error', function (err) {
           try {
-            assert.ok(/maxHeadersSize/.test(err.message));
+            assert.ok(/maxHeaderSize/.test(err.message));
             assert.strictEqual(err.status, 413);
           } catch (e) { return finish(e); }
           // a correct fix must not process a part after the limit error
           setImmediate(function () {
-            finish(partEmitted ? new Error('part emitted after maxHeadersSize error') : null);
+            finish(partEmitted ? new Error('part emitted after maxHeaderSize error') : null);
           });
         });
         form.on('close', function () {
-          finish(new Error('expected maxHeadersSize error, got close'));
+          finish(new Error('expected maxHeaderSize error, got close'));
         });
         form.parse(req);
       });
@@ -648,7 +648,7 @@ var standaloneTests = [
   },
   {
     // @see https://github.com/pillarjs/multiparty/security/advisories/GHSA-5h46-2939-q3wh
-    name: 'maxHeadersSize error via header field name',
+    name: 'maxHeaderSize error via header field name',
     fn: function(cb) {
       var client;
       var partEmitted = false;
@@ -660,20 +660,20 @@ var standaloneTests = [
         'v\r\n' +
         '------x--\r\n';
       var server = http.createServer(function (req) {
-        var form = new multiparty.Form({ maxHeadersSize: 32 });
+        var form = new multiparty.Form({ maxHeaderSize: 32 });
         form.on('part', function (part) { partEmitted = true; part.resume(); });
         form.on('error', function (err) {
           try {
-            assert.ok(/maxHeadersSize/.test(err.message));
+            assert.ok(/maxHeaderSize/.test(err.message));
             assert.strictEqual(err.status, 413);
           } catch (e) { return finish(e); }
           // a correct fix must not process a part after the limit error
           setImmediate(function () {
-            finish(partEmitted ? new Error('part emitted after maxHeadersSize error') : null);
+            finish(partEmitted ? new Error('part emitted after maxHeaderSize error') : null);
           });
         });
         form.on('close', function () {
-          finish(new Error('expected maxHeadersSize error, got close'));
+          finish(new Error('expected maxHeaderSize error, got close'));
         });
         form.parse(req);
       });
