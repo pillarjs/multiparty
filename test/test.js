@@ -292,6 +292,42 @@ var standaloneTests = [
     }
   },
   {
+    name: 'multiline field',
+    fn: function(cb) {
+      var boundary = 'foo';
+      var value = 'first line\r\nsecond line';
+      var body = Buffer.from(
+        '--' + boundary + '\r\n' +
+        'Content-Disposition: form-data; name="note"\r\n' +
+        '\r\n' +
+        value + '\r\n' +
+        '--' + boundary + '--\r\n'
+      );
+      var req = new stream.PassThrough();
+      var form = new multiparty.Form();
+      var fieldEmitted = false;
+
+      req.headers = {
+        'content-type': 'multipart/form-data; boundary=' + boundary,
+        'content-length': body.length
+      };
+
+      form.on('error', cb);
+      form.on('field', function(name, fieldValue) {
+        assert.strictEqual(name, 'note');
+        assert.strictEqual(fieldValue, value);
+        fieldEmitted = true;
+      });
+      form.on('close', function() {
+        assert.ok(fieldEmitted);
+        cb();
+      });
+
+      form.parse(req);
+      req.end(body);
+    }
+  },
+  {
     name: 'epilogue last chunk',
     fn: function(cb) {
       var server = http.createServer(function(req, res) {

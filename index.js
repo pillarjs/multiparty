@@ -753,15 +753,16 @@ function handleField(self, fieldStream) {
     self.handleError(err);
   });
   fieldStream.on('readable', function() {
-    var buffer = fieldStream.read();
-    if (!buffer) return;
+    var buffer;
+    while ((buffer = fieldStream.read()) !== null) {
+      self.totalFieldSize += buffer.length;
+      if (self.totalFieldSize > self.maxFieldsSize) {
+        self.handleError(createError(413, 'maxFieldsSize ' + self.maxFieldsSize + ' exceeded'));
+        return;
+      }
 
-    self.totalFieldSize += buffer.length;
-    if (self.totalFieldSize > self.maxFieldsSize) {
-      self.handleError(createError(413, 'maxFieldsSize ' + self.maxFieldsSize + ' exceeded'));
-      return;
+      value += decoder.write(buffer);
     }
-    value += decoder.write(buffer);
   });
 
   fieldStream.on('end', function() {
