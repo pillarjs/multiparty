@@ -27,6 +27,9 @@ jobs:
         - Node.js 16.x
         - Node.js 18.x
         - Node.js 20.x
+        - Node.js 22.x
+        - Node.js 24.x
+        - Node.js 26.x
 
         include:
         - name: Node.js 0.10
@@ -68,6 +71,15 @@ jobs:
 
         - name: Node.js 20.x
           node-version: "20.2"
+
+        - name: Node.js 22.x
+          node-version: "22.17"
+
+        - name: Node.js 24.x
+          node-version: "24.4"
+
+        - name: Node.js 26.x
+          node-version: "26.5"
 
     steps:
     - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
