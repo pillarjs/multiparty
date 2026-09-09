@@ -62,6 +62,7 @@ function Form(options) {
   self.maxFields = opts.maxFields || 1000
   self.maxFieldsSize = opts.maxFieldsSize || 2 * 1024 * 1024
   self.maxFilesSize = opts.maxFilesSize || Infinity
+  self.maxHeadersSize = opts.maxHeadersSize || 16 * 1024
   self.uploadDir = opts.uploadDir || os.tmpdir()
   self.encoding = opts.encoding || 'utf8'
 
@@ -303,6 +304,7 @@ Form.prototype._write = function(buffer, encoding, cb) {
             return;
           }
           self.onParseHeaderField(buffer.slice(self.headerFieldMark, i));
+          if (self.error) return;
           self.headerFieldMark = null;
           state = HEADER_VALUE_START;
           break;
@@ -323,6 +325,7 @@ Form.prototype._write = function(buffer, encoding, cb) {
       case HEADER_VALUE:
         if (c === CR) {
           self.onParseHeaderValue(buffer.slice(self.headerValueMark, i));
+          if (self.error) return;
           self.headerValueMark = null;
           self.onParseHeaderEnd();
           state = HEADER_VALUE_ALMOST_DONE;
@@ -458,10 +461,20 @@ Form.prototype.onParsePartBegin = function() {
 }
 
 Form.prototype.onParseHeaderField = function(b) {
+  this.partHeadersSize += b.length;
+  if (this.partHeadersSize > this.maxHeadersSize) {
+    this.handleError(createError(413, 'maxHeadersSize ' + this.maxHeadersSize + ' exceeded'));
+    return;
+  }
   this.headerField += this.headerFieldDecoder.write(b);
 }
 
 Form.prototype.onParseHeaderValue = function(b) {
+  this.partHeadersSize += b.length;
+  if (this.partHeadersSize > this.maxHeadersSize) {
+    this.handleError(createError(413, 'maxHeadersSize ' + this.maxHeadersSize + ' exceeded'));
+    return;
+  }
   this.headerValue += this.headerValueDecoder.write(b);
 }
 
@@ -794,6 +807,7 @@ function hasListeners (emitter, type) {
 
 function clearPartVars(self) {
   self.partHeaders = {};
+  self.partHeadersSize = 0;
   self.partName = null;
   self.partFilename = null;
   self.partTransferEncoding = 'binary';

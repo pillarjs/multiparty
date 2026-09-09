@@ -600,6 +600,101 @@ var standaloneTests = [
     }
   },
   {
+    // @see https://github.com/pillarjs/multiparty/security/advisories/GHSA-5h46-2939-q3wh
+    name: 'maxHeadersSize error via header value',
+    fn: function(cb) {
+      var client;
+      var partEmitted = false;
+      var done = false;
+      var body = '------x\r\n' +
+        'Content-Disposition: form-data; name="' + new Array(200).join('a') + '"\r\n' +
+        '\r\n' +
+        'v\r\n' +
+        '------x--\r\n';
+      var server = http.createServer(function (req) {
+        var form = new multiparty.Form({ maxHeadersSize: 32 });
+        form.on('part', function (part) { partEmitted = true; part.resume(); });
+        form.on('error', function (err) {
+          try {
+            assert.ok(/maxHeadersSize/.test(err.message));
+            assert.strictEqual(err.status, 413);
+          } catch (e) { return finish(e); }
+          // a correct fix must not process a part after the limit error
+          setImmediate(function () {
+            finish(partEmitted ? new Error('part emitted after maxHeadersSize error') : null);
+          });
+        });
+        form.on('close', function () {
+          finish(new Error('expected maxHeadersSize error, got close'));
+        });
+        form.parse(req);
+      });
+      function finish(err) {
+        if (done) return;
+        done = true;
+        if (client) client.destroy();
+        server.close(function () { cb(err); });
+      }
+      server.listen(function() {
+        client = net.connect(server.address().port);
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Host: localhost\r\n' +
+          'Content-Length: ' + Buffer.byteLength(body) + '\r\n' +
+          'Content-Type: multipart/form-data; boundary=----x\r\n' +
+          '\r\n' +
+          body);
+      });
+    }
+  },
+  {
+    // @see https://github.com/pillarjs/multiparty/security/advisories/GHSA-5h46-2939-q3wh
+    name: 'maxHeadersSize error via header field name',
+    fn: function(cb) {
+      var client;
+      var partEmitted = false;
+      var done = false;
+      var body = '------x\r\n' +
+        new Array(200).join('a') + ': v\r\n' +
+        'Content-Disposition: form-data; name="a"\r\n' +
+        '\r\n' +
+        'v\r\n' +
+        '------x--\r\n';
+      var server = http.createServer(function (req) {
+        var form = new multiparty.Form({ maxHeadersSize: 32 });
+        form.on('part', function (part) { partEmitted = true; part.resume(); });
+        form.on('error', function (err) {
+          try {
+            assert.ok(/maxHeadersSize/.test(err.message));
+            assert.strictEqual(err.status, 413);
+          } catch (e) { return finish(e); }
+          // a correct fix must not process a part after the limit error
+          setImmediate(function () {
+            finish(partEmitted ? new Error('part emitted after maxHeadersSize error') : null);
+          });
+        });
+        form.on('close', function () {
+          finish(new Error('expected maxHeadersSize error, got close'));
+        });
+        form.parse(req);
+      });
+      function finish(err) {
+        if (done) return;
+        done = true;
+        if (client) client.destroy();
+        server.close(function () { cb(err); });
+      }
+      server.listen(function() {
+        client = net.connect(server.address().port);
+        client.write('POST /upload HTTP/1.1\r\n' +
+          'Host: localhost\r\n' +
+          'Content-Length: ' + Buffer.byteLength(body) + '\r\n' +
+          'Content-Type: multipart/form-data; boundary=----x\r\n' +
+          '\r\n' +
+          body);
+      });
+    }
+  },
+  {
     name: 'safely handles __proto__ field name',
     fn: function(cb) {
       var client;
