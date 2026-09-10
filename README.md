@@ -81,6 +81,9 @@ Creates a new form. Options:
  * `maxFilesSize` - Only relevant when `autoFiles` is `true`.  Limits the
    total bytes accepted for all files combined. If this value is exceeded,
    an `error` event is emitted. The default is `Infinity`.
+ * `maxHeaderSize` - Limits the size of header names and values for each part.
+   If this value is exceeded, an `error` event is emitted. The default size is
+   16KB.
  * `autoFields` - Enables `field` events and disables `part` events for fields.
    This is automatically set to `true` if you add a `field` listener.
  * `autoFiles` - Enables `file` events and disables `part` events for files.

@@ -62,7 +62,7 @@ function Form(options) {
   self.maxFields = opts.maxFields || 1000
   self.maxFieldsSize = opts.maxFieldsSize || 2 * 1024 * 1024
   self.maxFilesSize = opts.maxFilesSize || Infinity
-  self.maxHeadersSize = opts.maxHeadersSize || 16 * 1024
+  self.maxHeaderSize = opts.maxHeaderSize || 16 * 1024
   self.uploadDir = opts.uploadDir || os.tmpdir()
   self.encoding = opts.encoding || 'utf8'
 
@@ -462,8 +462,8 @@ Form.prototype.onParsePartBegin = function() {
 
 Form.prototype.onParseHeaderField = function(b) {
   this.partHeadersSize += b.length;
-  if (this.partHeadersSize > this.maxHeadersSize) {
-    this.handleError(createError(413, 'maxHeadersSize ' + this.maxHeadersSize + ' exceeded'));
+  if (this.partHeadersSize > this.maxHeaderSize) {
+    this.handleError(createError(413, 'maxHeaderSize ' + this.maxHeaderSize + ' exceeded'));
     return;
   }
   this.headerField += this.headerFieldDecoder.write(b);
@@ -471,8 +471,8 @@ Form.prototype.onParseHeaderField = function(b) {
 
 Form.prototype.onParseHeaderValue = function(b) {
   this.partHeadersSize += b.length;
-  if (this.partHeadersSize > this.maxHeadersSize) {
-    this.handleError(createError(413, 'maxHeadersSize ' + this.maxHeadersSize + ' exceeded'));
+  if (this.partHeadersSize > this.maxHeaderSize) {
+    this.handleError(createError(413, 'maxHeaderSize ' + this.maxHeaderSize + ' exceeded'));
     return;
   }
   this.headerValue += this.headerValueDecoder.write(b);
