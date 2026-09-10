@@ -500,7 +500,13 @@ Form.prototype.onParseHeaderEnd = function() {
 
 Form.prototype.onParsePartData = function(b) {
   if (this.partTransferEncoding === 'base64') {
-    this.backpressure = ! this.destStream.write(b.toString('ascii'), 'base64');
+    // Count base64 characters, not whitespace, and retain incomplete groups.
+    var data = this.partRemainder + b.toString('binary').replace(/[\t\n\v\f\r ]/g, '');
+    var length = data.length - (data.length % 4);
+    this.partRemainder = data.slice(length);
+    if (length > 0) {
+      this.backpressure = ! this.destStream.write(data.slice(0, length), this.partTransferEncoding);
+    }
   } else {
     this.backpressure = ! this.destStream.write(b);
   }
@@ -510,8 +516,10 @@ Form.prototype.onParsePartEnd = function() {
   if (this.destStream) {
     flushWriteCbs(this);
     var s = this.destStream;
+    var remainder = this.partRemainder;
+    var encoding = this.partTransferEncoding;
     process.nextTick(function() {
-      s.end();
+      s.end(remainder, encoding);
     });
   }
   clearPartVars(this);
@@ -812,6 +820,7 @@ function clearPartVars(self) {
   self.partName = null;
   self.partFilename = null;
   self.partTransferEncoding = 'binary';
+  self.partRemainder = '';
   self.destStream = null;
 
   self.headerFieldDecoder = new StringDecoder(self.encoding);

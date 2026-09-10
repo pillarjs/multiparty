@@ -1701,6 +1701,92 @@ describe('multiparty', function () {
     rimraf(TMP_PATH, done)
   })
 
+  describe('content transfer encoding (issue 280)', function () {
+    var cases = [
+      { encoding: 'base64', chunkSize: 0 },
+      { encoding: 'binary', chunkSize: 5 },
+      { encoding: 'base64', chunkSize: 4 },
+      { encoding: 'base64', chunkSize: 1 },
+      { encoding: 'base64', chunkSize: 2 },
+      { encoding: 'base64', chunkSize: 3 },
+      { encoding: 'base64', chunkSize: 5 },
+      { encoding: 'base64', chunkSize: 6 },
+      { encoding: 'base64', chunkSize: 7 },
+      { encoding: 'base64', chunkSize: 5, variant: 'line-wrapped' },
+      { encoding: 'base64', chunkSize: 5, variant: 'unpadded', size: 19 },
+      { encoding: 'base64', chunkSize: 5, variant: 'unpadded', size: 20 }
+    ]
+
+    cases.forEach(function (testCase) {
+      var chunks = testCase.chunkSize ? testCase.chunkSize + '-byte chunks' : 'one chunk'
+      var variant = testCase.variant ? ' (' + testCase.variant + ')' : ''
+      if (testCase.size) variant += ' with ' + testCase.size + ' original bytes'
+
+      it('preserves a ' + testCase.encoding + ' file sent in ' + chunks + variant, function (done) {
+        var original = Buffer.from('000102037f80feff48656c6c6f20776f726c6421', 'hex')
+        if (testCase.size) original = original.slice(0, testCase.size)
+        var body = testCase.encoding === 'base64'
+          ? Buffer.from(original.toString('base64'))
+          : original
+        if (testCase.variant === 'line-wrapped') {
+          body = Buffer.from(body.toString().replace(/(.{4})/g, '$1\r\n \t'))
+        } else if (testCase.variant === 'unpadded') {
+          body = Buffer.from(body.toString().replace(/=+$/, ''))
+        }
+        var header = Buffer.from(
+          '--foo\r\n' +
+          'Content-Disposition: form-data; name="file"; filename="file.bin"\r\n' +
+          'Content-Type: application/octet-stream\r\n' +
+          'Content-Transfer-Encoding: ' + testCase.encoding + '\r\n\r\n'
+        )
+        var footer = Buffer.from('\r\n--foo--\r\n')
+        var req = new stream.PassThrough()
+        var form = new multiparty.Form({ uploadDir: TMP_PATH })
+
+        req.headers = {
+          'content-type': 'multipart/form-data; boundary=foo',
+          'content-length': header.length + body.length + footer.length
+        }
+
+        form.parse(req, function (err, fields, files) {
+          if (err) return done(err)
+          fs.readFile(files.file[0].path, function (err, actual) {
+            if (err) return done(err)
+            assert.deepEqual(actual, original)
+            done()
+          })
+        })
+
+        // Preserve explicit request chunk boundaries without TCP buffering.
+        req.write(header)
+        var chunkSize = testCase.chunkSize || body.length
+        for (var offset = 0; offset < body.length; offset += chunkSize) {
+          req.write(body.slice(offset, offset + chunkSize))
+        }
+        req.end(footer)
+      })
+    })
+
+    it('flushes and resets the base64 remainder between parts', function (done) {
+      var req = new stream.PassThrough()
+      var form = new multiparty.Form()
+      req.headers = { 'content-type': 'multipart/form-data; boundary=foo' }
+
+      form.parse(req, function (err, fields) {
+        if (err) return done(err)
+        assert.deepEqual(fields, { first: ['a'], second: ['bc'], third: ['plain'] })
+        done()
+      })
+
+      req.write('--foo\r\nContent-Disposition: form-data; name="first"\r\n' +
+        'Content-Transfer-Encoding: base64\r\n\r\nYQ')
+      req.write('\r\n--foo\r\nContent-Disposition: form-data; name="second"\r\n' +
+        'Content-Transfer-Encoding: base64\r\n\r\nYmM')
+      req.end('\r\n--foo\r\nContent-Disposition: form-data; name="third"\r\n' +
+        '\r\nplain\r\n--foo--\r\n')
+    })
+  })
+
   describe('fixture tests', function () {
     var fixtureServer = http.createServer()
     var fixtureTests = requireAll(path.join(FIXTURE_PATH, 'js'))
